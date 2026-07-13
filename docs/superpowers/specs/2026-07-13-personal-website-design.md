@@ -29,7 +29,7 @@
 /blog/[slug]          Blog 文章詳情頁（建置時依 Sheet 資料生成，僅中文）
 ```
 
-- 導覽列固定於頁面頂部，項目為：Home / My Story / Project / Blog
+- 導覽列固定於頁面頂部；導覽項目（Home / My Story / Project / Blog）水平置中於頁面中間，與左側 Logo（KFxNet）、右側語言切換按鈕（僅 Home / My Story 頁面顯示）分開排列
 - Project 卡片點擊後導航至獨立網址的詳情頁（非彈窗），有利於分享連結與 SEO
 - Blog 列表點擊文章後同樣導航至獨立網址的文章詳情頁
 - `/project/[slug]`、`/blog/[slug]` 的所有路徑於建置時透過 `generateStaticParams` 依 Sheet 資料動態產生
