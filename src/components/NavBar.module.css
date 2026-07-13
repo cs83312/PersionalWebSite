@@ -1,0 +1,55 @@
+.header {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  grid-template-areas: 'logo nav actions';
+  align-items: center;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--color-border);
+  background-color: var(--color-bg);
+}
+
+.logo {
+  grid-area: logo;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-weight: 700;
+  color: var(--color-text);
+  text-decoration: none;
+  justify-self: start;
+}
+
+.nav {
+  grid-area: nav;
+  display: flex;
+  gap: 24px;
+  justify-self: center;
+}
+
+.nav a {
+  color: var(--color-text);
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.nav a:hover {
+  color: var(--color-accent);
+}
+
+.actions {
+  grid-area: actions;
+  justify-self: end;
+}
+
+@media (max-width: 640px) {
+  .header {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      'logo actions'
+      'nav nav';
+    row-gap: 12px;
+  }
+
+  .nav {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+}
