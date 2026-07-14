@@ -1,6 +1,20 @@
+import type { Metadata } from 'next';
 import { getAllBlogPosts, getBlogPostBySlug } from '@/lib/blogPosts';
 import { renderMarkdown } from '@/lib/markdown';
 import styles from './page.module.css';
+
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+  const post = await getBlogPostBySlug(params.slug);
+
+  if (!post) {
+    return {};
+  }
+
+  return {
+    title: `${post.title} | KFxNet`,
+    description: post.summary || post.title,
+  };
+}
 
 export async function generateStaticParams() {
   const posts = await getAllBlogPosts();

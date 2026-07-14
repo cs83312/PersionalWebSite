@@ -1,5 +1,19 @@
+import type { Metadata } from 'next';
 import { getAllProjects, getProjectBySlug } from '@/lib/projects';
 import styles from './page.module.css';
+
+export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+  const project = await getProjectBySlug(params.slug);
+
+  if (!project) {
+    return {};
+  }
+
+  return {
+    title: `${project.title} | KFxNet`,
+    description: project.summary || project.title,
+  };
+}
 
 export async function generateStaticParams() {
   const projects = await getAllProjects();

@@ -21,6 +21,8 @@ Content is fetched at **build time**, not live. After editing the sheet, trigger
 
 ## Deploying
 
+**First-time setup:** Before the first deploy, go to your GitHub repo's **Settings** → **Pages** → **Build and deployment** → **Source** and select **GitHub Actions** (one-time configuration required for the workflow to deploy).
+
 1. Push your changes to the `main`/`master` branch on GitHub.
 2. Go to the repo's **Actions** tab.
 3. Select **Deploy to GitHub Pages** and click **Run workflow**.
