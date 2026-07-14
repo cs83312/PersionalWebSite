@@ -1,4 +1,3 @@
-import { notFound } from 'next/navigation';
 import { getAllProjects, getProjectBySlug } from '@/lib/projects';
 import styles from './page.module.css';
 
@@ -11,7 +10,7 @@ export default async function ProjectDetailPage({ params }: { params: { slug: st
   const project = await getProjectBySlug(params.slug);
 
   if (!project) {
-    notFound();
+    throw new Error(`Project not found for slug: ${params.slug} (generateStaticParams/getProjectBySlug mismatch)`);
   }
 
   return (
