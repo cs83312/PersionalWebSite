@@ -296,13 +296,12 @@ test('parseCsvRows skips empty lines', () => {
 
 - [ ] **Step 2: Add the `test` script and run to verify it fails**
 
-Update `package.json` `"scripts"` block:
+Update `package.json` `"scripts"` block (note: no `start` script — Task 1 removed it because `next start` is incompatible with `output: 'export'`; do not reintroduce it):
 
 ```json
 {
   "dev": "next dev",
   "build": "next build",
-  "start": "next start",
   "typecheck": "tsc --noEmit",
   "test": "tsx --test src/lib/sheets.test.ts"
 }
