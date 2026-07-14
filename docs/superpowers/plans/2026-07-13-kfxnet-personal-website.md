@@ -1317,7 +1317,6 @@ git commit -m "feat: add Card component and Project list page"
 - [ ] **Step 2: Create `src/app/project/[slug]/page.tsx`**
 
 ```tsx
-import { notFound } from 'next/navigation';
 import { getAllProjects, getProjectBySlug } from '@/lib/projects';
 import styles from './page.module.css';
 
@@ -1330,7 +1329,7 @@ export default async function ProjectDetailPage({ params }: { params: { slug: st
   const project = await getProjectBySlug(params.slug);
 
   if (!project) {
-    notFound();
+    throw new Error(`Project not found for slug: ${params.slug} (generateStaticParams/getProjectBySlug mismatch)`);
   }
 
   return (
@@ -1351,10 +1350,12 @@ export default async function ProjectDetailPage({ params }: { params: { slug: st
 }
 ```
 
+Note: under `output: 'export'`, a slug not present in `generateStaticParams()` never reaches this component (Next.js itself rejects the request at build/dev time), so this isn't a user-facing 404 path — it only guards against a `generateStaticParams`/`getProjectBySlug` mismatch bug. The real 404 experience for unknown project URLs comes entirely from the site-wide static `404.html` (Task 12), served by the static host for any unmatched path.
+
 - [ ] **Step 3: Verify build**
 
 Run: `npm run build`
-Expected: build succeeds, `out/project/hui-hui/index.html` exists
+Expected: build succeeds, `out/project/hui-hui.html` exists (Next's static export produces flat `<route>.html` files, not `<route>/index.html`, since `trailingSlash` is not enabled)
 
 - [ ] **Step 4: Manual check**
 
@@ -1446,7 +1447,6 @@ export default async function BlogPage() {
 - [ ] **Step 4: Create `src/app/blog/[slug]/page.tsx`**
 
 ```tsx
-import { notFound } from 'next/navigation';
 import { getAllBlogPosts, getBlogPostBySlug } from '@/lib/blogPosts';
 import { renderMarkdown } from '@/lib/markdown';
 import styles from './page.module.css';
@@ -1460,7 +1460,7 @@ export default async function BlogDetailPage({ params }: { params: { slug: strin
   const post = await getBlogPostBySlug(params.slug);
 
   if (!post) {
-    notFound();
+    throw new Error(`Blog post not found for slug: ${params.slug} (generateStaticParams/getBlogPostBySlug mismatch)`);
   }
 
   const html = renderMarkdown(post.content);
@@ -1475,10 +1475,12 @@ export default async function BlogDetailPage({ params }: { params: { slug: strin
 }
 ```
 
+Note: as with the Project detail page (Task 10), a slug not present in `generateStaticParams()` never reaches this component under `output: 'export'` — the thrown error only guards against a `generateStaticParams`/`getBlogPostBySlug` mismatch bug, not a user-facing 404. The real 404 experience for unknown blog URLs comes from the site-wide static `404.html` (Task 12).
+
 - [ ] **Step 5: Verify build**
 
 Run: `npm run build`
-Expected: build succeeds, `out/blog/index.html` and `out/blog/test/index.html` exist (from the sample `test` row in the Blog Posts sheet)
+Expected: build succeeds, `out/blog.html` and `out/blog/test.html` exist (from the sample `test` row in the Blog Posts sheet; Next's static export produces flat `<route>.html` files since `trailingSlash` is not enabled)
 
 - [ ] **Step 6: Manual check**
 
