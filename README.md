@@ -1,17 +1,35 @@
-# PersionalWebSite
-Display my professional skills
+# KFxNet Personal Website
 
-##Brand
-Brand name KFxNet
-## Introduce頁面
-自我介紹: 我是許展發(KLIF)，開發過Android，Spring boot，Spring Ai for RAG
-## My Story頁面
+Static personal website for 許展發 (KLIF), built with Next.js (static export) and deployed to GitHub Pages.
 
-從2023年進入AI領域，
-## project頁面
-用卡片呈現專案作品，使用者點擊卡片才會說明詳細資訊
-作品一: 恢恢巡路
-作品二: 瓦斯訂單系統
-## blog頁面
+## Development
 
+npm install
+npm run dev
+# open http://localhost:3000
 
+## Content updates (Google Sheets)
+
+Project and Blog content are edited in this Google Sheet:
+https://docs.google.com/spreadsheets/d/1Vk-e665IwaW2pf3Nng6lA7oqdcPsPFxc4JWhi0ZRRX4
+
+- `Projects` tab columns: slug, title, summary, description, tech_stack, image_url, link_url, order
+- `Blog Posts` tab columns: slug, title, date, summary, content, order
+
+Content is fetched at **build time**, not live. After editing the sheet, trigger a redeploy
+(see below) for changes to appear on the site.
+
+## Deploying
+
+**First-time setup:** Before the first deploy, go to your GitHub repo's **Settings** → **Pages** → **Build and deployment** → **Source** and select **GitHub Actions** (one-time configuration required for the workflow to deploy).
+
+1. Push your changes to the `main`/`master` branch on GitHub.
+2. Go to the repo's **Actions** tab.
+3. Select **Deploy to GitHub Pages** and click **Run workflow**.
+4. Site is published at https://cs83312.github.io/PersionalWebSite/
+
+## Tests
+
+npm test        # runs lib/ unit tests (CSV parsing, data validation, Markdown rendering)
+npm run typecheck
+npm run build   # also serves as the primary verification for pages/UI (no automated UI tests)

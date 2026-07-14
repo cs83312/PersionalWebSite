@@ -1,0 +1,9 @@
+.title {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  margin-bottom: 24px;
+}
+
+.list {
+  display: grid;
+  gap: 16px;
+}

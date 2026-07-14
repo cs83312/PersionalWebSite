@@ -1,0 +1,20 @@
+.article {
+  max-width: 720px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+.date {
+  color: #8b949e;
+  font-size: 13px;
+  margin-bottom: 24px;
+}
+
+.content :global(h1),
+.content :global(h2) {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+}
+
+.content :global(a) {
+  color: var(--color-accent);
+}

@@ -1,0 +1,10 @@
+.article {
+  max-width: 720px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+.article h1 {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  margin-bottom: 24px;
+}
