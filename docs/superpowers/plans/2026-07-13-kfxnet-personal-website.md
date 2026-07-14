@@ -91,7 +91,6 @@ Each `lib/` module is a pure-function boundary consumed by exactly one App Route
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
@@ -1680,7 +1679,7 @@ npm run build   # also serves as the primary verification for pages/UI (no autom
 
 - [ ] **Step 2: Full manual QA pass**
 
-Run: `npm run build && npm run start` (or `npx serve out`), then in a browser check:
+Run: `npm run build && npx serve out` (there is no `start` script — `next start` is incompatible with `output: 'export'`; note `npx serve out` serves at its own root and won't reflect the production `basePath`, so absolute-path assets/links will 404 locally — this is expected and matches how GitHub Pages actually hosts the site), then in a browser check:
 
 - [ ] Home (`/`) renders brand, tagline, intro, and CTA links; language switch toggles all text
 - [ ] My Story (`/story`) renders title/intro/body; language switch toggles all text
