@@ -28,6 +28,12 @@ test('renderMarkdown leaves paths unchanged when basePath is empty', () => {
   assert.match(html, /<a href="\/blog\/other">內頁<\/a>/);
 });
 
+test('renderMarkdown does not double-prefix an href that already starts with basePath', () => {
+  const html = renderMarkdown('![c](/PersionalWebSite/blog/a/c.png)', '/PersionalWebSite');
+  assert.match(html, /<img src="\/PersionalWebSite\/blog\/a\/c\.png"/);
+  assert.doesNotMatch(html, /PersionalWebSite\/PersionalWebSite/);
+});
+
 test('renderMarkdown leaves protocol-relative URLs untouched', () => {
   const html = renderMarkdown('![cdn](//cdn.example.com/x.png) [cdn](//cdn.example.com/page)', '/PersionalWebSite');
   assert.match(html, /<img src="\/\/cdn\.example\.com\/x\.png"/);
