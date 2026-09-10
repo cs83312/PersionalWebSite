@@ -35,12 +35,13 @@ summary: 列表頁顯示的一句話摘要（選填）
 
 規則：
 
+- `content/blog/` 是**平面目錄**，不會遞迴掃描子資料夾——放進子資料夾的檔案（例如 `content/blog/2026/my-post.md`）不會被讀取，也不會有任何警告。
 - **網址 slug 取自檔名**（`my-post.md` → `/blog/my-post`），檔名只能用小寫英文、數字與連字號。
 - `title` 與 `date` 必填，`date` 必須是 `YYYY-MM-DD`。缺欄位或格式錯誤會讓建置**直接失敗**，錯誤訊息會指出是哪個檔案。
 - `summary` 選填，留空則列表頁不顯示描述。
 - **內文不要再寫 `# 一級標題`**，詳情頁已經用 `title` 產生 `<h1>`。
 - 排序為日期新到舊，同一天則依檔名排序。
-- 圖片用 `/blog/<slug>/xxx.png` 這種根路徑寫法即可，正式站的 `/PersionalWebSite` 前綴會在建置時自動補上。
+- 圖片用 `/blog/<slug>/xxx.png` 這種根路徑寫法即可，正式站的 `/PersionalWebSite` 前綴會在建置時自動補上——但這只適用於 Markdown 的圖片與連結語法（`![]()` / `[]()`）。若在內文中直接寫 HTML 標籤（例如 `<img src="/blog/a/c.png">`），不會被補上前綴，所以請勿在原生 HTML 標籤裡使用根路徑寫法。
 
 本機預覽：`npm run dev` 後開 http://localhost:3000/blog
 
