@@ -2,9 +2,8 @@
 
 import { useState } from 'react';
 import { useLanguage } from '@/context/LanguageContext';
+import { basePath } from '@/lib/basePath';
 import styles from './StoryCard.module.css';
-
-const basePath = process.env.NODE_ENV === 'production' ? '/PersionalWebSite' : '';
 
 /** Put these files in public/images/. Add or remove entries freely. */
 const IMAGES = [
