@@ -15,5 +15,4 @@ export interface BlogPost {
   date: string;
   summary: string;
   content: string;
-  order: number;
 }
