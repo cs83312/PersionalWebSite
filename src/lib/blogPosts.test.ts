@@ -63,6 +63,22 @@ test('parseBlogPostFile throws when the filename is not a valid slug', () => {
   assert.throws(() => parseBlogPostFile('My_Post.md', VALID), /My_Post\.md/);
 });
 
+test('parseBlogPostFile throws a "wrong type" (not "missing") error when title is present but not a string', () => {
+  const raw = ['---', 'title: 123', 'date: 2026-09-07', '---', '', '內文。', ''].join('\n');
+  assert.throws(() => parseBlogPostFile('blog-test.md', raw), /blog-test\.md[\s\S]*title[\s\S]*expected a string/);
+  assert.throws(() => parseBlogPostFile('blog-test.md', raw), (error: Error) => !/missing/.test(error.message));
+});
+
+test('parseBlogPostFile throws when summary is present but not a string', () => {
+  const raw = ['---', 'title: 測試標題', 'date: 2026-09-07', 'summary: 123', '---', '', '內文。', ''].join('\n');
+  assert.throws(() => parseBlogPostFile('blog-test.md', raw), /blog-test\.md[\s\S]*summary[\s\S]*expected a string/);
+});
+
+test('parseBlogPostFile throws when date carries a time and UTC offset', () => {
+  const raw = ['---', 'title: 測試標題', 'date: 2026-01-01 08:00:00 +09:00', '---', '', '內文。', ''].join('\n');
+  assert.throws(() => parseBlogPostFile('blog-test.md', raw), /blog-test\.md[\s\S]*date/);
+});
+
 test('parseBlogPostFile throws with the filename when the YAML frontmatter is malformed', () => {
   const raw = ['---', 'title: Bad: Title: Here', 'date: 2026-09-07', '---', '', '內文。', ''].join('\n');
   assert.throws(() => parseBlogPostFile('blog-test.md', raw), /blog-test\.md/);
@@ -125,6 +141,16 @@ test('readBlogPostsFromDir propagates a parse error so the build fails', () => {
   try {
     fs.writeFileSync(path.join(dir, 'broken.md'), ['---', 'date: 2026-01-01', '---', '', '沒有標題。', ''].join('\n'));
     assert.throws(() => readBlogPostsFromDir(dir), /broken\.md[\s\S]*title/);
+  } finally {
+    fs.rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test('readBlogPostsFromDir picks up an uppercase .MD extension and still fails the build on bad content', () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'blog-upper-'));
+  try {
+    fs.writeFileSync(path.join(dir, 'UPPER.MD'), VALID);
+    assert.throws(() => readBlogPostsFromDir(dir), /UPPER\.MD/);
   } finally {
     fs.rmSync(dir, { recursive: true, force: true });
   }

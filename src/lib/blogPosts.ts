@@ -9,9 +9,19 @@ const DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
 
 // YAML parses an unquoted 2026-09-07 into a Date at UTC midnight, while a
 // quoted "2026-09-07" stays a string. Normalise both back to YYYY-MM-DD.
+// A Date carrying a time-of-day or UTC offset (e.g. "2026-01-01 08:00:00
+// +09:00") is NOT a genuine date-only value: converting it to UTC can shift
+// the calendar day, silently corrupting the sort key. Only a Date whose UTC
+// time components are all zero is trusted; anything else is handed back as
+// its full ISO string so it falls through to DATE_PATTERN and fails loudly.
 function normalizeDate(value: unknown): string {
   if (value instanceof Date) {
-    return value.toISOString().slice(0, 10);
+    const isDateOnly =
+      value.getUTCHours() === 0 &&
+      value.getUTCMinutes() === 0 &&
+      value.getUTCSeconds() === 0 &&
+      value.getUTCMilliseconds() === 0;
+    return isDateOnly ? value.toISOString().slice(0, 10) : value.toISOString();
   }
   return typeof value === 'string' ? value.trim() : '';
 }
@@ -34,7 +44,13 @@ export function parseBlogPostFile(fileName: string, raw: string): BlogPost {
     throw new Error(`Blog post "${fileName}" has invalid YAML frontmatter: ${(error as Error).message}`);
   }
 
-  const title = typeof data.title === 'string' ? data.title.trim() : '';
+  const rawTitle = data.title;
+  if (rawTitle !== undefined && rawTitle !== null && typeof rawTitle !== 'string') {
+    throw new Error(
+      `Blog post "${fileName}" has an invalid frontmatter "title": expected a string, got ${typeof rawTitle}`,
+    );
+  }
+  const title = typeof rawTitle === 'string' ? rawTitle.trim() : '';
   if (!title) {
     throw new Error(`Blog post "${fileName}" is missing the required frontmatter field "title"`);
   }
@@ -46,7 +62,13 @@ export function parseBlogPostFile(fileName: string, raw: string): BlogPost {
     );
   }
 
-  const summary = typeof data.summary === 'string' ? data.summary.trim() : '';
+  const rawSummary = data.summary;
+  if (rawSummary !== undefined && rawSummary !== null && typeof rawSummary !== 'string') {
+    throw new Error(
+      `Blog post "${fileName}" has an invalid frontmatter "summary": expected a string, got ${typeof rawSummary}`,
+    );
+  }
+  const summary = typeof rawSummary === 'string' ? rawSummary.trim() : '';
 
   return { slug, title, date, summary, content: content.trim() };
 }
@@ -70,7 +92,7 @@ export function readBlogPostsFromDir(dir: string): BlogPost[] {
 
   const posts = fs
     .readdirSync(dir)
-    .filter((fileName) => fileName.endsWith('.md'))
+    .filter((fileName) => /\.md$/i.test(fileName))
     .map((fileName) => parseBlogPostFile(fileName, fs.readFileSync(path.join(dir, fileName), 'utf8')));
 
   return sortBlogPosts(posts);
