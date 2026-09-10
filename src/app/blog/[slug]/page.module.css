@@ -18,3 +18,8 @@
 .content :global(a) {
   color: var(--color-accent);
 }
+
+.content :global(img) {
+  max-width: 100%;
+  height: auto;
+}
