@@ -1,11 +1,12 @@
-/** @type {import('next').NextConfig} */
-const isProd = process.env.NODE_ENV === 'production';
-const repoBasePath = '/PersionalWebSite';
+const { resolveBasePath } = require('./src/lib/basePath');
 
+const basePath = resolveBasePath(process.env.NODE_ENV);
+
+/** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'export',
-  basePath: isProd ? repoBasePath : '',
-  assetPrefix: isProd ? `${repoBasePath}/` : '',
+  basePath,
+  assetPrefix: basePath ? `${basePath}/` : '',
   images: {
     unoptimized: true,
   },
