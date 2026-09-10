@@ -24,7 +24,15 @@ export function parseBlogPostFile(fileName: string, raw: string): BlogPost {
     );
   }
 
-  const { data, content } = matter(raw);
+  let data: Record<string, any>;
+  let content: string;
+  try {
+    const parsed = matter(raw);
+    data = parsed.data;
+    content = parsed.content;
+  } catch (error) {
+    throw new Error(`Blog post "${fileName}" has invalid YAML frontmatter: ${(error as Error).message}`);
+  }
 
   const title = typeof data.title === 'string' ? data.title.trim() : '';
   if (!title) {

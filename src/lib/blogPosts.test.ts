@@ -63,6 +63,11 @@ test('parseBlogPostFile throws when the filename is not a valid slug', () => {
   assert.throws(() => parseBlogPostFile('My_Post.md', VALID), /My_Post\.md/);
 });
 
+test('parseBlogPostFile throws with the filename when the YAML frontmatter is malformed', () => {
+  const raw = ['---', 'title: Bad: Title: Here', 'date: 2026-09-07', '---', '', '內文。', ''].join('\n');
+  assert.throws(() => parseBlogPostFile('blog-test.md', raw), /blog-test\.md/);
+});
+
 function post(slug: string, date: string): BlogPost {
   return { slug, title: slug, date, summary: '', content: '' };
 }
