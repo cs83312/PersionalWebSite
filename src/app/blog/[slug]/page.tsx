@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { getAllBlogPosts, getBlogPostBySlug } from '@/lib/blogPosts';
 import { renderMarkdown } from '@/lib/markdown';
+import { basePath } from '@/lib/basePath';
 import styles from './page.module.css';
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
@@ -28,7 +29,7 @@ export default async function BlogDetailPage({ params }: { params: { slug: strin
     throw new Error(`Blog post not found for slug: ${params.slug} (generateStaticParams/getBlogPostBySlug mismatch)`);
   }
 
-  const html = renderMarkdown(post.content);
+  const html = renderMarkdown(post.content, basePath);
 
   return (
     <article className={styles.article}>

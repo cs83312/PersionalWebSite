@@ -9,3 +9,21 @@ test('renderMarkdown converts heading, bold, list, and link', () => {
   assert.match(html, /<li>item one<\/li>/);
   assert.match(html, /<a href="https:\/\/example.com">link<\/a>/);
 });
+
+test('renderMarkdown prefixes root-relative image and link paths with basePath', () => {
+  const html = renderMarkdown('![封面](/blog/blog-test/cover.png)\n\n[內頁](/blog/other)', '/PersionalWebSite');
+  assert.match(html, /<img src="\/PersionalWebSite\/blog\/blog-test\/cover\.png"/);
+  assert.match(html, /<a href="\/PersionalWebSite\/blog\/other">內頁<\/a>/);
+});
+
+test('renderMarkdown leaves external links and anchors untouched', () => {
+  const html = renderMarkdown('[外連](https://example.com) [錨點](#section)', '/PersionalWebSite');
+  assert.match(html, /<a href="https:\/\/example\.com">外連<\/a>/);
+  assert.match(html, /<a href="#section">錨點<\/a>/);
+});
+
+test('renderMarkdown leaves paths unchanged when basePath is empty', () => {
+  const html = renderMarkdown('![封面](/blog/blog-test/cover.png)\n\n[內頁](/blog/other)');
+  assert.match(html, /<img src="\/blog\/blog-test\/cover\.png"/);
+  assert.match(html, /<a href="\/blog\/other">內頁<\/a>/);
+});
