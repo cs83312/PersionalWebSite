@@ -27,3 +27,9 @@ test('renderMarkdown leaves paths unchanged when basePath is empty', () => {
   assert.match(html, /<img src="\/blog\/blog-test\/cover\.png"/);
   assert.match(html, /<a href="\/blog\/other">內頁<\/a>/);
 });
+
+test('renderMarkdown leaves protocol-relative URLs untouched', () => {
+  const html = renderMarkdown('![cdn](//cdn.example.com/x.png) [cdn](//cdn.example.com/page)', '/PersionalWebSite');
+  assert.match(html, /<img src="\/\/cdn\.example\.com\/x\.png"/);
+  assert.match(html, /<a href="\/\/cdn\.example\.com\/page">cdn<\/a>/);
+});

@@ -2,13 +2,14 @@ import { Marked, type Token } from 'marked';
 
 // Markdown authors write root-relative paths like /blog/<slug>/cover.png.
 // On GitHub Pages the site lives under a basePath, so those hrefs need the
-// prefix. External URLs and anchors must stay untouched.
+// prefix. External URLs (including protocol-relative //cdn.example.com),
+// anchors, and relative paths must stay untouched.
 function prefixInternalHrefs(basePath: string) {
   return (token: Token): void => {
     if (token.type !== 'image' && token.type !== 'link') {
       return;
     }
-    if (!token.href.startsWith('/')) {
+    if (!token.href.startsWith('/') || token.href.startsWith('//')) {
       return;
     }
     token.href = `${basePath}${token.href}`;
