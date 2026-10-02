@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
 import { dictionary, type Language } from '@/lib/dictionary';
+import { safeGetItem, safeSetItem } from '@/lib/safeStorage';
 
 interface LanguageContextValue {
   language: Language;
@@ -17,7 +18,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   const [language, setLanguageState] = useState<Language>('zh');
 
   useEffect(() => {
-    const stored = window.localStorage.getItem(STORAGE_KEY);
+    const stored = safeGetItem(STORAGE_KEY);
     if (stored === 'zh' || stored === 'en') {
       setLanguageState(stored);
     }
@@ -25,7 +26,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
   function setLanguage(next: Language) {
     setLanguageState(next);
-    window.localStorage.setItem(STORAGE_KEY, next);
+    safeSetItem(STORAGE_KEY, next);
   }
 
   return (

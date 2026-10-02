@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useLanguage } from '@/context/LanguageContext';
+import { safeSetItem } from '@/lib/safeStorage';
 import { THEME_STORAGE_KEY, resolveInitialTheme, type Theme } from '@/lib/theme';
 import styles from './ThemeToggle.module.css';
 
@@ -37,11 +38,7 @@ export function ThemeToggle() {
     const next: Theme = theme === 'dark' ? 'light' : 'dark';
     setTheme(next);
     document.documentElement.dataset.theme = next;
-    try {
-      window.localStorage.setItem(THEME_STORAGE_KEY, next);
-    } catch {
-      // 無痕模式等情況寫不進去：本次切換仍生效，只是不保存
-    }
+    safeSetItem(THEME_STORAGE_KEY, next);
   }
 
   const label = theme === 'dark' ? t.theme.toLight : t.theme.toDark;
