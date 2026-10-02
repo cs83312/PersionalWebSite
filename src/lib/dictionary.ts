@@ -3,6 +3,7 @@ export type Language = 'zh' | 'en';
 export const dictionary = {
   zh: {
     nav: { home: 'Home', story: 'My Story', project: 'Project', blog: 'Blog' },
+    theme: { toDark: '切換為深色模式', toLight: '切換為淺色模式' },
     home: {
       brand: 'KFxNet',
       tagline: '許展發（KLIF）的個人技術網站',
@@ -38,6 +39,7 @@ export const dictionary = {
   },
   en: {
     nav: { home: 'Home', story: 'My Story', project: 'Project', blog: 'Blog' },
+    theme: { toDark: 'Switch to dark mode', toLight: 'Switch to light mode' },
     home: {
       brand: 'KFxNet',
       tagline: 'Personal tech site of Chang-Fa Hsu (KLIF)',
