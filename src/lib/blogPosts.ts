@@ -4,7 +4,7 @@ import matter from 'gray-matter';
 import type { BlogPost } from './types';
 
 const BLOG_DIR = path.join(process.cwd(), 'content', 'blog');
-const SLUG_PATTERN = /^[a-z0-9-]+$/;
+export const SLUG_PATTERN = /^[a-z0-9-]+$/;
 const DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/;
 
 // YAML parses an unquoted 2026-09-07 into a Date at UTC midnight, while a

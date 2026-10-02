@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "typecheck": "tsc --noEmit",
-    "test": "tsx --test src/lib/sheets.test.ts src/lib/projects.test.ts src/lib/blogPosts.test.ts src/lib/markdown.test.ts src/lib/basePath.test.ts"
+    "test": "tsx --test src/lib/sheets.test.ts src/lib/projects.test.ts src/lib/blogPosts.test.ts src/lib/markdown.test.ts src/lib/basePath.test.ts src/lib/cmsConfig.test.ts"
   },
   "dependencies": {
     "gray-matter": "^4.0.3",

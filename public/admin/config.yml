@@ -1,0 +1,60 @@
+# Sveltia CMS config for the /admin blog editor.
+# Every save is a commit to the repo; the push to main triggers the deploy
+# workflow, so the live site updates once GitHub Actions finishes.
+# Sign in with a fine-grained personal access token (Contents: read and write).
+# The rules below mirror src/lib/blogPosts.ts — keep them in sync.
+
+backend:
+  name: github
+  repo: cs83312/PersionalWebSite
+  branch: main
+
+site_url: https://cs83312.github.io/PersionalWebSite
+
+# Fallback only; the blog collection sets its own per-post folder below.
+media_folder: /public/blog
+public_folder: /blog
+
+media_libraries:
+  all:
+    # JPEG/PNG uploads become WebP and are scaled down to fit 1600x1600.
+    transformations:
+      raster_image:
+        format: webp
+        quality: 85
+        width: 1600
+        height: 1600
+
+slug:
+  encoding: ascii
+  lowercase: true
+
+collections:
+  - name: blog
+    label: Blog 文章
+    label_singular: 文章
+    folder: /content/blog
+    extension: md
+    format: frontmatter
+    create: true
+    delete: true
+    # Filename = URL slug. The loader only accepts lowercase letters, digits
+    # and hyphens, and titles are usually Chinese, so the slug is typed by hand.
+    slug:
+      editable: [create]
+      hint: 網址名稱，只能用小寫英文、數字與連字號，例如 my-first-post（建立後不可更改）
+      pattern: ['^[a-z0-9-]+$', '只能用小寫英文、數字與連字號']
+    # Images go to public/blog/<slug>/ and are referenced as /blog/<slug>/xxx;
+    # the build adds the /PersionalWebSite basePath prefix.
+    media_folder: /public/blog/{{filename}}
+    public_folder: /blog/{{filename}}
+    sortable_fields: [date, title]
+    summary: '{{date}} · {{title}}'
+    fields:
+      - { name: title, label: 標題, widget: string }
+      - { name: date, label: 日期, widget: datetime, type: date, default: '{{now}}' }
+      - { name: summary, label: 摘要（列表頁顯示，選填）, widget: text, required: false }
+      - name: body
+        label: 內文
+        widget: markdown
+        hint: 不要寫「# 一級標題」，頁面會用上面的標題產生。圖片請用上傳或 Markdown 語法，不要寫 <img> 標籤。

@@ -45,6 +45,17 @@ summary: 列表頁顯示的一句話摘要（選填）
 
 本機預覽：`npm run dev` 後開 http://localhost:3000/blog
 
+#### 網頁後台（/admin）
+
+也可以不碰 Git，直接在網頁上新增、編輯、刪除文章：https://cs83312.github.io/PersionalWebSite/admin/
+
+- 後台是 [Sveltia CMS](https://sveltiacms.app/)，設定在 `public/admin/config.yml`。每次儲存都會直接 commit 到 `main`，觸發部署，約 1–2 分鐘後正式站更新。
+- 登入：選「使用存取權杖登入」，貼上 GitHub fine-grained personal access token（Repository access 只勾這個 repo，權限 **Contents: Read and write**）。token 只存在該瀏覽器，換裝置需重新貼上。
+- 新文章的「網址名稱」（slug）要手動輸入，規則同上（小寫英文、數字、連字號），建立後不可更改。
+- 上傳的圖片會存到 `public/blog/<slug>/`，JPEG/PNG 會自動轉成 WebP 並縮到 1600px 以內。
+- `config.yml` 的資料夾、slug 規則與欄位由 `src/lib/cmsConfig.test.ts` 檢查是否與 `src/lib/blogPosts.ts` 一致；改其中一邊時記得同步。
+- 本機開發時開 http://localhost:3000/admin/index.html，可以選「使用本機倉庫」直接編輯本機檔案（需 Chrome / Edge），不會產生 commit。
+
 ### Projects（仍在 Google Sheet）
 
 Project 內容仍在這張 Google Sheet 編輯：
@@ -59,10 +70,9 @@ Sheet 內容在**建置時**抓取，不是即時的。改完 Sheet 後需重新
 
 **First-time setup:** Before the first deploy, go to your GitHub repo's **Settings** → **Pages** → **Build and deployment** → **Source** and select **GitHub Actions** (one-time configuration required for the workflow to deploy).
 
-1. Push your changes to the `main`/`master` branch on GitHub.
-2. Go to the repo's **Actions** tab.
-3. Select **Deploy to GitHub Pages** and click **Run workflow**.
-4. Site is published at https://cs83312.github.io/PersionalWebSite/
+1. Push your changes to the `main` branch on GitHub (the /admin editor does this on every save). The **Deploy to GitHub Pages** workflow runs automatically.
+2. To redeploy without a push (e.g. after editing the Projects Google Sheet), go to the **Actions** tab, select **Deploy to GitHub Pages** and click **Run workflow**.
+3. Site is published at https://cs83312.github.io/PersionalWebSite/
 
 ## Tests
 
