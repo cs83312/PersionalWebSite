@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { LanguageProvider } from '@/context/LanguageContext';
 import { NavBar } from '@/components/NavBar';
+import { themeInitScript } from '@/lib/theme';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -10,7 +11,11 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="zh-Hant">
+    // data-theme 由下方腳本在 React 接手前設定，伺服器 HTML 沒有它，所以關閉此屬性的 hydration 警告
+    <html lang="zh-Hant" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
       <body>
         <LanguageProvider>
           <NavBar />
