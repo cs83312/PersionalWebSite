@@ -3,9 +3,9 @@
   grid-template-columns: minmax(0, 0.75fr) minmax(0, 1fr);
   gap: 32px;
   align-items: center;
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--border);
   border-radius: 8px;
-  background-color: #161b22;
+  background-color: var(--surface);
   padding: 28px 24px;
 }
 
@@ -24,7 +24,7 @@
   aspect-ratio: 3 / 4;
   border-radius: 6px;
   overflow: hidden;
-  background-color: var(--color-bg);
+  background-color: var(--bg);
 }
 
 .image,
@@ -54,9 +54,9 @@
   width: 34px;
   height: 34px;
   border-radius: 50%;
-  border: 1px solid var(--color-border);
-  background-color: var(--color-bg);
-  color: #8b949e;
+  border: 1px solid var(--border);
+  background-color: var(--bg);
+  color: var(--text-muted);
   font-size: 14px;
   line-height: 1;
   cursor: pointer;
@@ -67,8 +67,8 @@
 
 .prev:hover,
 .next:hover {
-  border-color: var(--color-accent);
-  color: var(--color-accent);
+  border-color: var(--secondary-ink);
+  color: var(--secondary-ink);
 }
 
 .dots {
@@ -83,13 +83,13 @@
   padding: 0;
   border-radius: 50%;
   cursor: pointer;
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--border);
   background-color: transparent;
 }
 
 .dotActive {
-  border-color: var(--color-accent);
-  background-color: var(--color-accent);
+  border-color: var(--secondary-ink);
+  background-color: var(--secondary-ink);
 }
 
 .body {
@@ -113,12 +113,12 @@
 .divider {
   margin: 20px 0;
   font-size: 15px;
-  color: #484f58;
+  color: var(--text-subtle);
 }
 
-.groupA { color: var(--color-accent); }
-.groupB { color: var(--color-text); }
-.groupC { color: #3fb950; }
+.groupA { color: var(--secondary-ink); }
+.groupB { color: var(--text); }
+.groupC { color: var(--tertiary); }
 
 @media (max-width: 760px) {
   .card {

@@ -10,7 +10,7 @@
 }
 
 .tagline {
-  color: #8b949e;
+  color: var(--text-muted);
   margin: 0 0 24px;
 }
 
@@ -28,14 +28,15 @@
 }
 
 .links a {
-  border: 1px solid var(--color-accent);
-  color: var(--color-accent);
+  border: 1px solid var(--secondary-ink);
+  color: var(--secondary-ink);
   padding: 10px 20px;
   border-radius: 6px;
   text-decoration: none;
 }
 
 .links a:hover {
-  background-color: var(--color-accent);
-  color: var(--color-bg);
+  border-color: var(--secondary);
+  background-color: var(--secondary);
+  color: var(--on-secondary);
 }

@@ -1,8 +1,58 @@
 :root {
-  --color-bg: #0d1117;
-  --color-text: #e6edf3;
-  --color-border: #30363d;
-  --color-accent: #f0883e;
+  color-scheme: light;
+  --bg: #ffffff;
+  --surface: #f2f4f7;
+  --border: #d8dee6;
+  --text: #002340;
+  --text-muted: #5b6675;
+  --text-subtle: #a3adba;
+  --primary: #002340;
+  --primary-soft: #eef3f8;
+  --secondary: #f28c38;
+  --secondary-ink: #9c4a0d;
+  --secondary-soft: #fef4eb;
+  --tertiary: #177236;
+  --tertiary-soft: #eaf7ee;
+  --on-secondary: #002340;
+}
+
+/* 深色值寫兩次：data-theme 由 <head> 腳本設定；media query 是 JS 停用時的後備。兩段必須保持一致。 */
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --bg: #001020;
+  --surface: #001a30;
+  --border: #0f3a61;
+  --text: #eef3f8;
+  --text-muted: #7c9fc0;
+  --text-subtle: #4a769e;
+  --primary: #eef3f8;
+  --primary-soft: #0f3a61;
+  --secondary: #f28c38;
+  --secondary-ink: #f6a965;
+  --secondary-soft: #4d2508;
+  --tertiary: #62c27f;
+  --tertiary-soft: #082b15;
+  --on-secondary: #002340;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    color-scheme: dark;
+    --bg: #001020;
+    --surface: #001a30;
+    --border: #0f3a61;
+    --text: #eef3f8;
+    --text-muted: #7c9fc0;
+    --text-subtle: #4a769e;
+    --primary: #eef3f8;
+    --primary-soft: #0f3a61;
+    --secondary: #f28c38;
+    --secondary-ink: #f6a965;
+    --secondary-soft: #4d2508;
+    --tertiary: #62c27f;
+    --tertiary-soft: #082b15;
+    --on-secondary: #002340;
+  }
 }
 
 * {
@@ -11,8 +61,8 @@
 
 body {
   margin: 0;
-  background-color: var(--color-bg);
-  color: var(--color-text);
+  background-color: var(--bg);
+  color: var(--text);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
 

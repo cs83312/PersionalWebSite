@@ -5,7 +5,7 @@
 }
 
 .date {
-  color: #8b949e;
+  color: var(--text-muted);
   font-size: 13px;
   margin-bottom: 24px;
 }
@@ -16,7 +16,7 @@
 }
 
 .content :global(a) {
-  color: var(--color-accent);
+  color: var(--secondary-ink);
 }
 
 .content :global(img) {

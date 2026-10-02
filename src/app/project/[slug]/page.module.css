@@ -5,7 +5,7 @@
 }
 
 .techStack {
-  color: var(--color-accent);
+  color: var(--secondary-ink);
   font-size: 13px;
   margin-bottom: 16px;
 }
@@ -19,5 +19,5 @@
 .link {
   display: inline-block;
   margin-top: 16px;
-  color: var(--color-accent);
+  color: var(--secondary-ink);
 }
