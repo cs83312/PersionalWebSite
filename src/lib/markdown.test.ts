@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { renderMarkdown } from './markdown';
+import { renderMarkdown, withBasePath } from './markdown';
 
 test('renderMarkdown converts heading, bold, list, and link', () => {
   const html = renderMarkdown('# Title\n\n**bold** text\n\n- item one\n- item two\n\n[link](https://example.com)');
@@ -38,4 +38,25 @@ test('renderMarkdown leaves protocol-relative URLs untouched', () => {
   const html = renderMarkdown('![cdn](//cdn.example.com/x.png) [cdn](//cdn.example.com/page)', '/PersionalWebSite');
   assert.match(html, /<img src="\/\/cdn\.example\.com\/x\.png"/);
   assert.match(html, /<a href="\/\/cdn\.example\.com\/page">cdn<\/a>/);
+});
+
+test('withBasePath prefixes a root-relative path', () => {
+  assert.equal(withBasePath('/project/a/cover.webp', '/PersionalWebSite'), '/PersionalWebSite/project/a/cover.webp');
+});
+
+test('withBasePath leaves external and protocol-relative URLs untouched', () => {
+  assert.equal(withBasePath('https://example.com/a.png', '/PersionalWebSite'), 'https://example.com/a.png');
+  assert.equal(withBasePath('//cdn.example.com/a.png', '/PersionalWebSite'), '//cdn.example.com/a.png');
+  assert.equal(withBasePath('relative/a.png', '/PersionalWebSite'), 'relative/a.png');
+});
+
+test('withBasePath leaves a path that already carries basePath untouched', () => {
+  assert.equal(
+    withBasePath('/PersionalWebSite/project/a/cover.webp', '/PersionalWebSite'),
+    '/PersionalWebSite/project/a/cover.webp',
+  );
+});
+
+test('withBasePath returns the path unchanged when basePath is empty', () => {
+  assert.equal(withBasePath('/project/a/cover.webp', ''), '/project/a/cover.webp');
 });
