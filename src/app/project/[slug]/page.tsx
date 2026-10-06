@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
-import { getAllProjects, getProjectBySlug } from '@/lib/projects';
+import { notFound } from 'next/navigation';
+import { EMPTY_PROJECTS_PLACEHOLDER, getAllProjects, getProjectBySlug, projectStaticParams } from '@/lib/projects';
 import { renderMarkdown, withBasePath } from '@/lib/markdown';
 import { basePath } from '@/lib/basePath';
 import articleStyles from '@/app/article.module.css';
@@ -19,12 +20,15 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 }
 
 export async function generateStaticParams() {
-  const projects = await getAllProjects();
-  return projects.map((project) => ({ slug: project.slug }));
+  return projectStaticParams(await getAllProjects());
 }
 
 export default async function ProjectDetailPage({ params }: { params: { slug: string } }) {
   const project = await getProjectBySlug(params.slug);
+
+  if (!project && params.slug === EMPTY_PROJECTS_PLACEHOLDER) {
+    notFound();
+  }
 
   if (!project) {
     throw new Error(`Project not found for slug: ${params.slug} (generateStaticParams/getProjectBySlug mismatch)`);

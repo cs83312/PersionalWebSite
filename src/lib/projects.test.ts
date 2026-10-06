@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { parseProjectFile, readProjectsFromDir } from './projects';
+import { EMPTY_PROJECTS_PLACEHOLDER, SLUG_PATTERN, parseProjectFile, projectStaticParams, readProjectsFromDir } from './projects';
 
 const VALID = [
   '---',
@@ -154,4 +154,16 @@ test('readProjectsFromDir fails on an uppercase .MD filename', () => {
   withTempDir({ 'UPPER.MD': VALID }, (dir) => {
     assert.throws(() => readProjectsFromDir(dir), /UPPER\.MD/);
   });
+});
+
+test('projectStaticParams lists one entry per project slug', () => {
+  const projects = [parseProjectFile('a.md', project(['title: A', 'date: 2026-01-01']))];
+  assert.deepEqual(projectStaticParams(projects), [{ slug: 'a' }]);
+});
+
+test('projectStaticParams returns a placeholder that no real slug can match when there are no projects', () => {
+  // Static export rejects a dynamic route with no params, so deleting the last
+  // project in /admin would otherwise break every deploy.
+  assert.deepEqual(projectStaticParams([]), [{ slug: EMPTY_PROJECTS_PLACEHOLDER }]);
+  assert.equal(SLUG_PATTERN.test(EMPTY_PROJECTS_PLACEHOLDER), false);
 });
