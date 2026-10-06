@@ -15,6 +15,8 @@
   --tertiary-soft: #eaf7ee;
   --on-secondary: #002340;
   --shadow: 0 24px 50px rgba(0, 35, 64, 0.12);
+  --lightning-core: #002340;
+  --lightning-glow: rgba(0, 35, 64, 0.55);
 }
 
 /* 深色值寫兩次：data-theme 由 <head> 腳本設定；media query 是 JS 停用時的後備。兩段必須保持一致。 */
@@ -35,6 +37,8 @@
   --tertiary-soft: #082b15;
   --on-secondary: #002340;
   --shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+  --lightning-core: #fff7ee;
+  --lightning-glow: #f6a965;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -55,6 +59,8 @@
     --tertiary-soft: #082b15;
     --on-secondary: #002340;
     --shadow: 0 24px 60px rgba(0, 0, 0, 0.55);
+    --lightning-core: #fff7ee;
+    --lightning-glow: #f6a965;
   }
 }
 

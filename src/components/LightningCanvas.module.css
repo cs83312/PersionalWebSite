@@ -1,0 +1,10 @@
+/* Fixed behind all page content; z-index -1 sits above the body background
+   (which paints on the canvas root) but below every in-flow element. */
+.canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+}
