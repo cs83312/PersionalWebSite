@@ -56,26 +56,39 @@ summary: 列表頁顯示的一句話摘要（選填）
 - `config.yml` 的資料夾、slug 規則與欄位由 `src/lib/cmsConfig.test.ts` 檢查是否與 `src/lib/blogPosts.ts` 一致；改其中一邊時記得同步。
 - 本機開發時開 http://localhost:3000/admin/index.html，可以選「使用本機倉庫」直接編輯本機檔案（需 Chrome / Edge），不會產生 commit。
 
-### Projects（仍在 Google Sheet）
+### Projects（Markdown 檔，和 Blog 相同做法）
 
-Project 內容仍在這張 Google Sheet 編輯：
-https://docs.google.com/spreadsheets/d/1Vk-e665IwaW2pf3Nng6lA7oqdcPsPFxc4JWhi0ZRRX4
+每個專案是 `content/projects/` 底下的一個 `.md` 檔，**檔名就是網址**：`content/projects/hui-hui.md` → `/project/hui-hui`。最方便的編輯方式是網頁後台 `/admin` 的「Project 專案」分類（登入方式同上）。
 
-- `Projects` 分頁欄位：slug, title, summary, description, tech_stack, image_url, link_url, order
-- 該 Sheet 的 `Blog Posts` 分頁已停用，Blog 內容改由上述 Markdown 檔提供。
+```markdown
+---
+title: 恢恢巡路系統
+date: 2026-10-06
+summary: 道路巡護
+tech_stack: Next.js · Spring Boot
+cover: /project/hui-hui/cover.webp
+link_url: https://example.com
+---
 
-Sheet 內容在**建置時**抓取，不是即時的。改完 Sheet 後需重新部署才會生效。
+這裡是 Markdown 內文……
+```
+
+- 檔名、`title`、`date` 規則與 Blog 相同；缺欄位或格式錯誤會讓建置直接失敗，並指出是哪個檔案。
+- `summary`、`tech_stack`、`cover`、`link_url` 皆選填。
+- 列表依 `date` 新到舊排序，同一天依檔名排序。
+- 封面與內文圖片存放在 `public/project/<slug>/`，用 `/project/<slug>/xxx` 寫法；後台上傳時會自動處理。有封面的專案，列表卡片與內頁都會顯示封面。
+- `config.yml` 的 projects 設定由 `src/lib/cmsConfig.test.ts` 檢查是否與 `src/lib/projects.ts` 一致。
 
 ## Deploying
 
 **First-time setup:** Before the first deploy, go to your GitHub repo's **Settings** → **Pages** → **Build and deployment** → **Source** and select **GitHub Actions** (one-time configuration required for the workflow to deploy).
 
 1. Push your changes to the `main` branch on GitHub (the /admin editor does this on every save). The **Deploy to GitHub Pages** workflow runs automatically.
-2. To redeploy without a push (e.g. after editing the Projects Google Sheet), go to the **Actions** tab, select **Deploy to GitHub Pages** and click **Run workflow**.
+2. To redeploy without a push, go to the **Actions** tab, select **Deploy to GitHub Pages** and click **Run workflow**.
 3. Site is published at https://cs83312.github.io/PersionalWebSite/
 
 ## Tests
 
-npm test        # runs lib/ unit tests (CSV parsing, data validation, Markdown rendering)
+npm test        # runs lib/ unit tests (content validation, Markdown rendering, CMS config sync)
 npm run typecheck
 npm run build   # also serves as the primary verification for pages/UI (no automated UI tests)

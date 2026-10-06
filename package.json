@@ -6,19 +6,17 @@
     "dev": "next dev",
     "build": "next build",
     "typecheck": "tsc --noEmit",
-    "test": "tsx --test src/lib/sheets.test.ts src/lib/projects.test.ts src/lib/blogPosts.test.ts src/lib/markdown.test.ts src/lib/basePath.test.ts src/lib/cmsConfig.test.ts src/lib/theme.test.ts src/lib/safeStorage.test.ts"
+    "test": "tsx --test src/lib/projects.test.ts src/lib/blogPosts.test.ts src/lib/markdown.test.ts src/lib/basePath.test.ts src/lib/cmsConfig.test.ts src/lib/theme.test.ts src/lib/safeStorage.test.ts"
   },
   "dependencies": {
     "gray-matter": "^4.0.3",
     "marked": "^12.0.0",
     "next": "^14.2.0",
-    "papaparse": "^5.4.1",
     "react": "^18.3.0",
     "react-dom": "^18.3.0"
   },
   "devDependencies": {
     "@types/node": "^20.11.0",
-    "@types/papaparse": "^5.3.14",
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",
     "tsx": "^4.7.0",
