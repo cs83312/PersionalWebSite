@@ -1,8 +1,9 @@
-# Sveltia CMS config for the /admin blog editor.
+# Sveltia CMS config for the /admin editor (Blog posts and Projects).
 # Every save is a commit to the repo; the push to main triggers the deploy
 # workflow, so the live site updates once GitHub Actions finishes.
 # Sign in with a fine-grained personal access token (Contents: read and write).
-# The rules below mirror src/lib/blogPosts.ts — keep them in sync.
+# The rules below mirror src/lib/blogPosts.ts and src/lib/projects.ts
+# (shared rules in src/lib/frontmatter.ts) — keep them in sync.
 
 backend:
   name: github
@@ -57,4 +58,35 @@ collections:
       - name: body
         label: 內文
         widget: markdown
+        hint: 不要寫「# 一級標題」，頁面會用上面的標題產生。圖片請用上傳或 Markdown 語法，不要寫 <img> 標籤。
+  - name: projects
+    label: Project 專案
+    label_singular: 專案
+    folder: /content/projects
+    extension: md
+    format: frontmatter
+    create: true
+    delete: true
+    # Same slug rule as the blog: filename = URL slug, typed by hand.
+    slug:
+      editable: [create]
+      hint: 網址名稱，只能用小寫英文、數字與連字號，例如 hui-hui（建立後不可更改）
+      pattern: ['^[a-z0-9-]+$', '只能用小寫英文、數字與連字號']
+    # Images go to public/project/<slug>/ and are referenced as
+    # /project/<slug>/xxx; the build adds the /PersionalWebSite basePath prefix.
+    media_folder: /public/project/{{filename}}
+    public_folder: /project/{{filename}}
+    sortable_fields: [date, title]
+    summary: '{{date}} · {{title}}'
+    fields:
+      - { name: title, label: 標題, widget: string }
+      - { name: date, label: 日期（列表依日期排序，新的在前）, widget: datetime, type: date, default: '{{now}}' }
+      - { name: summary, label: 摘要（列表卡片顯示，選填）, widget: text, required: false }
+      - { name: tech_stack, label: 使用技術（選填）, widget: string, required: false, hint: '例如 Next.js · Spring Boot' }
+      - { name: cover, label: 封面圖（選填）, widget: image, required: false }
+      - { name: link_url, label: 專案連結（選填）, widget: string, required: false, hint: '完整網址，例如 https://example.com' }
+      - name: body
+        label: 內文
+        widget: markdown
+        required: false
         hint: 不要寫「# 一級標題」，頁面會用上面的標題產生。圖片請用上傳或 Markdown 語法，不要寫 <img> 標籤。
