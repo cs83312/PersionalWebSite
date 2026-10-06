@@ -2,7 +2,7 @@ export type Language = 'zh' | 'en';
 
 export const dictionary = {
   zh: {
-    nav: { home: 'Home', story: 'My Story', project: 'Project', blog: 'Blog' },
+    nav: { home: '首頁', story: '我的故事', project: '專案作品', blog: '部落格' },
     theme: { toDark: '切換為深色模式', toLight: '切換為淺色模式' },
     home: {
       brand: 'KFxNet',
