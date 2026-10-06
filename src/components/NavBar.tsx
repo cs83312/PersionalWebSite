@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useLanguage } from '@/context/LanguageContext';
+import { basePath } from '@/lib/basePath';
 import { LanguageSwitcher } from './LanguageSwitcher';
 import { ThemeToggle } from './ThemeToggle';
 import styles from './NavBar.module.css';
@@ -15,6 +16,7 @@ export function NavBar() {
   return (
     <header className={styles.header}>
       <Link href="/" className={styles.logo}>
+        <img src={`${basePath}/images/logo/deer-small.png`} alt="" className={styles.logoMark} />
         KFxNet
       </Link>
       <nav className={styles.nav}>

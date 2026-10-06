@@ -15,6 +15,15 @@
   color: var(--text);
   text-decoration: none;
   justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logoMark {
+  height: 28px;
+  width: auto;
+  display: block;
 }
 
 .nav {

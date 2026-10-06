@@ -9,6 +9,7 @@ export const dictionary = {
       tagline: '許展發（KLIF）的個人技術網站',
       intro: '我是許展發（KLIF），開發過 Android、Spring Boot、Spring AI for RAG。',
       cta: { story: '看看我的故事', project: '查看專案作品', blog: '閱讀部落格' },
+      card: { slogan: '資料庫網站開發與企業AI轉型', flip: '點卡片翻面' },
     },
     story: {
       title: 'My Story',
@@ -46,6 +47,7 @@ export const dictionary = {
       intro:
         "I'm Chang-Fa Hsu (KLIF), a developer with experience in Android, Spring Boot, and Spring AI for RAG.",
       cta: { story: 'Read my story', project: 'View projects', blog: 'Read the blog' },
+      card: { slogan: 'Database web development & enterprise AI transformation', flip: 'Flip the card' },
     },
     story: {
       title: 'My Story',
