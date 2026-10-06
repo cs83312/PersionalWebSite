@@ -1,12 +1,14 @@
 export interface Project {
   slug: string;
   title: string;
+  date: string;
   summary: string;
-  description: string;
   techStack: string;
-  imageUrl: string;
+  // Root-relative (e.g. /project/<slug>/cover.webp) without basePath; '' when unset.
+  cover: string;
   linkUrl: string;
-  order: number;
+  // Raw Markdown body.
+  content: string;
 }
 
 export interface BlogPost {

@@ -1,36 +1,38 @@
-import { fetchCsvRows } from './sheets';
+import path from 'node:path';
+import {
+  parseMarkdownFile,
+  readDate,
+  readMarkdownDir,
+  readOptionalString,
+  readRequiredString,
+  sortByDateThenSlug,
+} from './frontmatter';
 import type { Project } from './types';
 
-const PROJECTS_CSV_URL =
-  'https://docs.google.com/spreadsheets/d/1Vk-e665IwaW2pf3Nng6lA7oqdcPsPFxc4JWhi0ZRRX4/gviz/tq?tqx=out:csv&sheet=Projects';
+const PROJECTS_DIR = path.join(process.cwd(), 'content', 'projects');
 
-export function parseProjectRows(rows: Record<string, string>[]): Project[] {
-  const projects: Project[] = [];
+export function parseProjectFile(fileName: string, raw: string): Project {
+  const { slug, data, content } = parseMarkdownFile('Project', fileName, raw);
+  const owner = `Project "${fileName}"`;
 
-  rows.forEach((row, index) => {
-    if (!row.slug || !row.title) {
-      console.warn(`Skipping project row ${index + 2}: missing required "slug" or "title"`);
-      return;
-    }
+  return {
+    slug,
+    title: readRequiredString(data, 'title', owner),
+    date: readDate(data, owner),
+    summary: readOptionalString(data, 'summary', owner),
+    techStack: readOptionalString(data, 'tech_stack', owner),
+    cover: readOptionalString(data, 'cover', owner),
+    linkUrl: readOptionalString(data, 'link_url', owner),
+    content,
+  };
+}
 
-    projects.push({
-      slug: row.slug,
-      title: row.title,
-      summary: row.summary ?? '',
-      description: row.description ?? '',
-      techStack: row.tech_stack ?? '',
-      imageUrl: row.image_url ?? '',
-      linkUrl: row.link_url ?? '',
-      order: row.order && !Number.isNaN(Number(row.order)) ? Number(row.order) : index,
-    });
-  });
-
-  return projects.sort((a, b) => a.order - b.order);
+export function readProjectsFromDir(dir: string): Project[] {
+  return sortByDateThenSlug(readMarkdownDir(dir, parseProjectFile));
 }
 
 export async function getAllProjects(): Promise<Project[]> {
-  const rows = await fetchCsvRows(PROJECTS_CSV_URL);
-  return parseProjectRows(rows);
+  return readProjectsFromDir(PROJECTS_DIR);
 }
 
 export async function getProjectBySlug(slug: string): Promise<Project | undefined> {
