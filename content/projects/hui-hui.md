@@ -4,7 +4,7 @@ date: 2026-10-06
 summary: 道路巡護
 tech_stack: ''
 cover: /project/hui-hui/huahua.webp
-link_url: https://cs83312.github.io/SmartRoadPortralPublic
+link_url: https://cs83312.github.io/SmartRoadPatrolPublic
 ---
 
 # 我們根據政府法規
