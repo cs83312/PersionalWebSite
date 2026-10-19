@@ -11,6 +11,7 @@ const VALID = [
   'title: 測試標題',
   'date: 2026-09-07',
   'summary: 一句話摘要',
+  'cover: /blog/blog-test/cover.png',
   '---',
   '',
   '內文第一段。',
@@ -23,6 +24,7 @@ test('parseBlogPostFile reads frontmatter and takes the slug from the filename',
   assert.equal(post.title, '測試標題');
   assert.equal(post.date, '2026-09-07');
   assert.equal(post.summary, '一句話摘要');
+  assert.equal(post.cover, '/blog/blog-test/cover.png');
   assert.equal(post.content, '內文第一段。');
 });
 
@@ -41,6 +43,11 @@ test('parseBlogPostFile accepts a quoted date string too', () => {
 test('parseBlogPostFile defaults a missing summary to an empty string', () => {
   const raw = ['---', 'title: 測試標題', 'date: 2026-09-07', '---', '', '內文。', ''].join('\n');
   assert.equal(parseBlogPostFile('blog-test.md', raw).summary, '');
+});
+
+test('parseBlogPostFile defaults a missing cover to an empty string', () => {
+  const raw = ['---', 'title: 測試標題', 'date: 2026-09-07', '---', '', '內文。', ''].join('\n');
+  assert.equal(parseBlogPostFile('blog-test.md', raw).cover, '');
 });
 
 test('parseBlogPostFile throws when title is missing', () => {
@@ -85,7 +92,7 @@ test('parseBlogPostFile throws with the filename when the YAML frontmatter is ma
 });
 
 function post(slug: string, date: string): BlogPost {
-  return { slug, title: slug, date, summary: '', content: '' };
+  return { slug, title: slug, date, summary: '', cover: '', content: '' };
 }
 
 test('sortBlogPosts orders newest date first', () => {

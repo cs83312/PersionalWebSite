@@ -41,9 +41,10 @@ test('CMS stores images under public/blog/<slug>/ and links them as /blog/<slug>
 test('CMS frontmatter fields match what parseBlogPostFile expects', () => {
   const fields = blogCollection().fields as { name: string; required?: boolean; type?: string }[];
   const byName = Object.fromEntries(fields.map((field) => [field.name, field]));
-  assert.deepEqual(Object.keys(byName).sort(), ['body', 'date', 'summary', 'title']);
+  assert.deepEqual(Object.keys(byName).sort(), ['body', 'cover', 'date', 'summary', 'title']);
   assert.equal(byName.date.type, 'date', 'date must be date-only so it serialises as YYYY-MM-DD');
   assert.equal(byName.summary.required, false);
+  assert.equal(byName.cover.required, false);
 });
 
 test('a post saved by the CMS with an empty summary and an uploaded image parses', () => {

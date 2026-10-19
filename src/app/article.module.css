@@ -12,3 +12,68 @@
   max-width: 100%;
   height: auto;
 }
+
+.content :global(table) {
+  border-collapse: collapse;
+  width: 100%;
+  display: block;
+  overflow-x: auto;
+}
+
+.content :global(th),
+.content :global(td) {
+  border: 2px solid var(--text-muted);
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+}
+
+.content :global(th) {
+  background: var(--surface);
+}
+
+.content :global(code) {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 0.95em;
+  padding: 0.15em 0.4em;
+  border-radius: 4px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+
+.content :global(pre) {
+  position: relative;
+  margin: 1.25rem 0;
+  padding: 1rem 1.25rem;
+  padding-top: 2.5rem;
+  overflow-x: auto;
+  border-radius: 8px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--secondary);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.content :global(pre code) {
+  padding: 0;
+  border: none;
+  background: none;
+  font-size: inherit;
+}
+
+.copyButton {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  padding: 0.25rem 0.6rem;
+  font-size: 0.8rem;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.copyButton:hover {
+  border-color: var(--secondary);
+}

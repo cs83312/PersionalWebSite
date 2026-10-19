@@ -16,5 +16,7 @@ export interface BlogPost {
   title: string;
   date: string;
   summary: string;
+  // Root-relative (e.g. /blog/<slug>/cover.png) without basePath; '' when unset.
+  cover: string;
   content: string;
 }

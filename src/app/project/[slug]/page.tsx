@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 import { EMPTY_PROJECTS_PLACEHOLDER, getAllProjects, getProjectBySlug, projectStaticParams } from '@/lib/projects';
 import { renderMarkdown, withBasePath } from '@/lib/markdown';
 import { basePath } from '@/lib/basePath';
-import articleStyles from '@/app/article.module.css';
+import { ArticleContent } from '@/components/ArticleContent';
 import styles from './page.module.css';
 
 export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
@@ -43,7 +43,7 @@ export default async function ProjectDetailPage({ params }: { params: { slug: st
       {project.cover && (
         <img src={withBasePath(project.cover, basePath)} alt={project.title} className={styles.image} />
       )}
-      {html && <div className={articleStyles.content} dangerouslySetInnerHTML={{ __html: html }} />}
+      {html && <ArticleContent html={html} />}
       {project.linkUrl && (
         <a href={project.linkUrl} target="_blank" rel="noreferrer" className={styles.link}>
           查看專案 →

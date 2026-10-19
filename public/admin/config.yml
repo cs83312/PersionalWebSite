@@ -55,6 +55,7 @@ collections:
       - { name: title, label: 標題, widget: string }
       - { name: date, label: 日期, widget: datetime, type: date, default: '{{now}}' }
       - { name: summary, label: 摘要（列表頁顯示，選填）, widget: text, required: false }
+      - { name: cover, label: 封面圖（選填）, widget: image, required: false }
       - name: body
         label: 內文
         widget: markdown

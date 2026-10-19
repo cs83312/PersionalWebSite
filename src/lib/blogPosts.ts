@@ -24,6 +24,7 @@ export function parseBlogPostFile(fileName: string, raw: string): BlogPost {
     title: readRequiredString(data, 'title', owner),
     date: readDate(data, owner),
     summary: readOptionalString(data, 'summary', owner),
+    cover: readOptionalString(data, 'cover', owner),
     content,
   };
 }
