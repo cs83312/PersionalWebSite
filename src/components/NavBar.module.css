@@ -10,7 +10,7 @@
 
 .logo {
   grid-area: logo;
-  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-family: var(--font-mono), 'Fira Code', monospace;
   font-weight: 700;
   color: var(--text);
   text-decoration: none;
@@ -37,10 +37,25 @@
   color: var(--text);
   text-decoration: none;
   font-size: 14px;
+  padding-bottom: 4px;
+  /* 預設透明底線先佔位，切換目前頁面時文字不會跳動 */
+  border-bottom: 2px solid transparent;
+  transition: color 0.2s, border-color 0.2s;
 }
 
 .nav a:hover {
   color: var(--secondary-ink);
+}
+
+.nav a.active {
+  color: var(--secondary-ink);
+  border-bottom-color: var(--secondary);
+}
+
+.nav a:focus-visible {
+  outline: 2px solid var(--secondary-ink);
+  outline-offset: 4px;
+  border-radius: 2px;
 }
 
 .actions {

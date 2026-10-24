@@ -1,4 +1,4 @@
-# KFxNet Personal Website
+# KLIF x SparkNet Personal Website
 
 Static personal website for 許展發 (KLIF), built with Next.js (static export) and deployed to GitHub Pages.
 

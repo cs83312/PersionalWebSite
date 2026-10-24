@@ -47,13 +47,17 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--surface);
+  overflow: hidden;
+  /* 頭像底圖是白色，面板也用白色讓邊緣不露縫 */
+  background: #fff;
   border-right: 1px solid var(--border);
 }
 
-.logo {
-  width: 62%;
-  height: auto;
+.avatar {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
   display: block;
 }
 
@@ -79,25 +83,30 @@
 }
 
 .name {
-  font: 900 clamp(24px, 6.5vw, 34px) / 1.1 'Noto Sans TC', sans-serif;
+  font: 900 clamp(24px, 6.5vw, 34px) / 1.1 var(--font-tc), sans-serif;
   color: var(--text);
   letter-spacing: 0.04em;
 }
 
 .alias {
-  font: 700 clamp(14px, 3.4vw, 18px) / 1 'JetBrains Mono', 'Fira Code', monospace;
+  font: 700 clamp(14px, 3.4vw, 18px) / 1 var(--font-mono), 'Fira Code', monospace;
   color: var(--text);
 }
 
 .title {
-  font: 500 14px / 1.4 'JetBrains Mono', 'Fira Code', monospace;
+  font: 500 14px / 1.4 var(--font-tc), sans-serif;
+  letter-spacing: 0.04em;
   color: var(--secondary-ink);
 }
 
 .contact {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 4px;
+}
+
+.contact .rule {
+  margin-bottom: 4px;
 }
 
 .rule {
@@ -107,14 +116,14 @@
   border-radius: 2px;
 }
 
-.email {
-  font: 400 clamp(11px, 2.5vw, 13px) / 1.4 'JetBrains Mono', 'Fira Code', monospace;
+.contactLink {
+  font: 400 clamp(11px, 2.5vw, 13px) / 1.4 var(--font-mono), 'Fira Code', monospace;
   color: var(--text-muted);
   text-decoration: none;
   word-break: break-all;
 }
 
-.email:hover {
+.contactLink:hover {
   color: var(--secondary-ink);
 }
 
@@ -124,25 +133,43 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 22px;
-  padding: 32px;
+  gap: clamp(8px, 3vw, 18px);
+  padding: clamp(14px, 5%, 32px);
 }
 
 .backLogo {
-  width: 56px;
+  width: clamp(36px, 9vw, 56px);
   height: auto;
   display: block;
 }
 
 .slogan {
-  font: 700 clamp(17px, 4.4vw, 22px) / 1.5 'Noto Sans TC', sans-serif;
+  font: 700 clamp(17px, 4.4vw, 22px) / 1.5 var(--font-tc), sans-serif;
   color: var(--text);
   letter-spacing: 0.06em;
   text-align: center;
 }
 
+.services {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2px 0;
+  font: 500 clamp(11px, 2.8vw, 13px) / 1.5 var(--font-tc), sans-serif;
+  color: var(--text-muted);
+}
+
+/* 服務項目排成一行、以「・」分隔，窄螢幕時自動換行 */
+.services li + li::before {
+  content: '・';
+  color: var(--secondary);
+}
+
 .brand {
-  font: 500 12px / 1 'JetBrains Mono', 'Fira Code', monospace;
+  font: 500 12px / 1 var(--font-mono), 'Fira Code', monospace;
   letter-spacing: 0.2em;
   color: var(--text-muted);
 }
@@ -151,7 +178,7 @@
   background: transparent;
   border: 0;
   padding: 4px 8px;
-  font: 400 12px / 1 'JetBrains Mono', 'Fira Code', monospace;
+  font: 400 12px / 1 var(--font-mono), 'Fira Code', monospace;
   color: var(--text-muted);
   cursor: pointer;
 }

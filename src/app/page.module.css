@@ -4,7 +4,7 @@
 }
 
 .brand {
-  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-family: var(--font-mono), 'Fira Code', monospace;
   font-size: 48px;
   margin: 0 0 8px;
 }

@@ -9,7 +9,6 @@ export default async function ProjectPage() {
 
   return (
     <section>
-      <h1 className={styles.title}>Project</h1>
       <div className={styles.grid}>
         {projects.map((project) => (
           <Card

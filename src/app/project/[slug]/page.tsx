@@ -14,7 +14,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   }
 
   return {
-    title: `${project.title} | KFxNet`,
+    title: `${project.title} | KLIF x SparkNet`,
     description: project.summary || project.title,
   };
 }
@@ -39,6 +39,7 @@ export default async function ProjectDetailPage({ params }: { params: { slug: st
   return (
     <article className={styles.article}>
       <h1>{project.title}</h1>
+      {project.date && <p className={styles.date}>{project.date}</p>}
       {project.techStack && <p className={styles.techStack}>{project.techStack}</p>}
       {project.cover && (
         <img src={withBasePath(project.cover, basePath)} alt={project.title} className={styles.image} />

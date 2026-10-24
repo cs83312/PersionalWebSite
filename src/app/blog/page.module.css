@@ -1,10 +1,6 @@
-.title {
-  font-family: 'JetBrains Mono', 'Fira Code', monospace;
-  margin-bottom: 24px;
-}
-
 .grid {
+  margin-top: 21px;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(min(325px, 100%), 1fr));
+  gap: 25px;
 }

@@ -9,7 +9,6 @@ export default async function BlogPage() {
 
   return (
     <section>
-      <h1 className={styles.title}>Blog</h1>
       <div className={styles.grid}>
         {posts.map((post) => (
           <Card

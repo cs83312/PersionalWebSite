@@ -1,8 +1,8 @@
 ---
 title: 恢恢巡路系統
 date: 2026-10-06
-summary: 道路巡護
-tech_stack: ''
+summary: 全民發起道路巡護讓無障礙做得更好
+tech_stack: 'Angular,C# ASP.Net,PostgreSQL'
 cover: /project/hui-hui/huahua.webp
 link_url: https://cs83312.github.io/SmartRoadPatrolPublic
 ---

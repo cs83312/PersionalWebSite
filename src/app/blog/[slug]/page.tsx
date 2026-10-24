@@ -13,7 +13,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
   }
 
   return {
-    title: `${post.title} | KFxNet`,
+    title: `${post.title} | KLIF x SparkNet`,
     description: post.summary || post.title,
   };
 }

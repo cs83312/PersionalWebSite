@@ -6,29 +6,30 @@ export const dictionary = {
     theme: { toDark: '切換為深色模式', toLight: '切換為淺色模式' },
     article: { copy: '複製', copied: '已複製' },
     home: {
-      brand: 'KFxNet',
+      brand: 'KLIF x SparkNet',
       tagline: '許展發（KLIF）的個人技術網站',
       intro: '我是許展發（KLIF），開發過 Android、Spring Boot、Spring AI for RAG。',
       cta: { story: '看看我的故事', project: '查看專案作品', blog: '閱讀部落格' },
-      card: { slogan: '資料庫網站開發與企業AI轉型', flip: '點卡片翻面' },
+      card: {
+        slogan: '資料庫網站開發與企業AI轉型',
+        services: ['網站建置與架設', '全端軟體開發', '系統AI應用導入'],
+        flip: '點卡片翻面',
+      },
     },
     story: {
-      title: 'My Story',
       intro: '我是許展發（KLIF），開發過 Android、Spring Boot、Spring AI for RAG。',
       body: '從 2023 年開始踏入 AI 領域，這段旅程的完整故事，我正在慢慢寫下來，敬請期待更新。',
       selfIntro: {
-        title: '執行長自述',
+        title: '故事自述',
         groups: [
           [ //自我介紹
             '參與軟體開發從半導體自動化到物聯網伺服器開發，',
-            '再到 AI 系統架構與應用，累積**1067 小時**的 AI 相關經驗',
-            '我相信 Empower，無論是 Empower 的主體或客體，',
-            '也相信好奇心、理解力與進步之間的緊密關聯',
+            '再到 AI 系統架構與開發應用，累積**120 小時**的 AI 相關經驗',
+            '我相信 Evolve together，始於好奇心引導的理解，成於彼此的催化與成全。無論身處引導或協同的位置，我致力於搭建讓思考自由生長的環境，與夥伴在拆解問題的過程中共同進化。'
           ],
           [ //哲學
             '職業生涯（Career）與**後端開發X人工智慧（AI）**密不可分',
-            '我**喜歡 X 這個符號**，也樂見**巧遇「連結」**的瞬間',
-            '哲學性地將**「連結起數個 X 的組成」**稱為：**XNet**',
+            '「我喜歡 Spark（火花）這個意象，它象徵好奇心點燃的原點，也象徵巧遇『連結』的瞬間。我將由數個靈感火花交織共振而成的網絡，稱為 SparkNet。」',
           ],
           [ //定位 XNet
             '我扮演 AI 系統架構與後端開發',
@@ -44,15 +45,18 @@ export const dictionary = {
     theme: { toDark: 'Switch to dark mode', toLight: 'Switch to light mode' },
     article: { copy: 'Copy', copied: 'Copied' },
     home: {
-      brand: 'KFxNet',
+      brand: 'KLIF x SparkNet',
       tagline: 'Personal tech site of Chang-Fa Hsu (KLIF)',
       intro:
         "I'm Chang-Fa Hsu (KLIF), a developer with experience in Android, Spring Boot, and Spring AI for RAG.",
       cta: { story: 'Read my story', project: 'View projects', blog: 'Read the blog' },
-      card: { slogan: 'Database web development & enterprise AI transformation', flip: 'Flip the card' },
+      card: {
+        slogan: 'Database web development & enterprise AI transformation',
+        services: ['Website building & hosting', 'Full-stack development', 'AI integration for systems'],
+        flip: 'Flip the card',
+      },
     },
     story: {
-      title: 'My Story',
       intro:
         "I'm Chang-Fa Hsu (KLIF), a developer with experience in Android, Spring Boot, and Spring AI for RAG.",
       body: 'I started my journey into AI in 2023. The full story is still being written — more to come soon.',
