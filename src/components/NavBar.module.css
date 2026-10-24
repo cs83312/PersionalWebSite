@@ -10,7 +10,7 @@
 
 .logo {
   grid-area: logo;
-  font-family: var(--font-mono), 'Fira Code', monospace;
+  font-family: var(--font-base);
   font-weight: 700;
   color: var(--text);
   text-decoration: none;

@@ -7,7 +7,7 @@ import './globals.css';
 
 // 中文用思源黑體、英數用 JetBrains Mono；CJK 字型檔很大，不預載
 const notoSansTC = Noto_Sans_TC({
-  weight: ['500', '700', '900'],
+  weight: ['400', '500', '700', '900'],
   display: 'swap',
   preload: false,
   variable: '--font-tc',

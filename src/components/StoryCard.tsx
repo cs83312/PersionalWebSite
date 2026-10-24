@@ -5,12 +5,9 @@ import { useLanguage } from '@/context/LanguageContext';
 import { basePath } from '@/lib/basePath';
 import styles from './StoryCard.module.css';
 
-/** Put these files in public/images/. Add or remove entries freely. */
+/** Put these files in public/images/. Add or remove entries freely; arrows and dots appear once there are 2+. */
 const IMAGES = [
-  { src: '/images/story-1.jpg', alt: '演講現場' },
-  { src: '/images/story-2.jpg', alt: '演講現場' },
-  { src: '/images/story-3.jpg', alt: '演講現場' },
-  { src: '/images/story-4.jpg', alt: '演講現場' },
+  { src: '/images/story-portrait.webp', alt: '許展發（KLIF）' },
 ];
 
 const GROUP_CLASS = [styles.groupA, styles.groupB, styles.groupC];
@@ -48,24 +45,28 @@ export function StoryCard() {
           ))}
         </div>
 
-        <button type="button" className={styles.prev} onClick={prev} aria-label="上一張">
-          &lsaquo;
-        </button>
-        <button type="button" className={styles.next} onClick={next} aria-label="下一張">
-          &rsaquo;
-        </button>
+        {count > 1 && (
+          <>
+            <button type="button" className={styles.prev} onClick={prev} aria-label="上一張">
+              &lsaquo;
+            </button>
+            <button type="button" className={styles.next} onClick={next} aria-label="下一張">
+              &rsaquo;
+            </button>
 
-        <div className={styles.dots}>
-          {IMAGES.map((image, i) => (
-            <button
-              key={image.src}
-              type="button"
-              className={i === index ? styles.dotActive : styles.dot}
-              onClick={() => setIndex(i)}
-              aria-label={`切換到第 ${i + 1} 張圖片`}
-            />
-          ))}
-        </div>
+            <div className={styles.dots}>
+              {IMAGES.map((image, i) => (
+                <button
+                  key={image.src}
+                  type="button"
+                  className={i === index ? styles.dotActive : styles.dot}
+                  onClick={() => setIndex(i)}
+                  aria-label={`切換到第 ${i + 1} 張圖片`}
+                />
+              ))}
+            </div>
+          </>
+        )}
       </div>
 
       <div className={styles.body}>

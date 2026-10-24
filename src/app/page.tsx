@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import { BusinessCard } from '@/components/BusinessCard';
 import { LightningCanvas } from '@/components/LightningCanvas';
 import { useLanguage } from '@/context/LanguageContext';
@@ -16,11 +15,6 @@ export default function HomePage() {
       <p className={styles.tagline}>{t.home.tagline}</p>
       <p className={styles.intro}>{t.home.intro}</p>
       <BusinessCard />
-      <div className={styles.links}>
-        <Link href="/story">{t.home.cta.story}</Link>
-        <Link href="/project">{t.home.cta.project}</Link>
-        <Link href="/blog">{t.home.cta.blog}</Link>
-      </div>
     </section>
   );
 }

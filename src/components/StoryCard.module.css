@@ -93,13 +93,16 @@
 }
 
 .body {
+  min-width: 0;
   text-align: center;
   line-height: 2.1;
-  word-break: keep-all;
+  /* keep-all 會讓長中文句子無法斷行而溢出欄位、看起來不置中 */
+  overflow-wrap: anywhere;
+  text-wrap: balance;
 }
 
 .heading {
-  font-family: var(--font-mono), 'Fira Code', monospace;
+  font-family: var(--font-base);
   font-size: 26px;
   font-weight: 700;
   margin: 0 0 28px;

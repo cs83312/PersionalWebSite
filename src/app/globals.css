@@ -72,7 +72,17 @@ body {
   margin: 0;
   background-color: var(--bg);
   color: var(--text);
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  /* 英數先用 JetBrains Mono；它沒有中文字形，中文會逐字落到 Noto Sans TC */
+  --font-base: var(--font-mono), var(--font-tc), monospace;
+  font-family: var(--font-base);
+}
+
+/* 表單元素預設不繼承字型 */
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
 }
 
 main {
