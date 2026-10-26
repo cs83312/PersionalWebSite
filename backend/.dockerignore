@@ -1,0 +1,7 @@
+.venv
+tests
+data
+.env
+**/__pycache__
+.pytest_cache
+service/LangChain.py

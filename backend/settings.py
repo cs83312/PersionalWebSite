@@ -24,7 +24,7 @@ class Settings(BaseSettings):
     persona_path: Path = Path("config/persona.yaml")
 
     retrieval_top_k: int = 4
-    score_threshold: float = 0.5
+    score_threshold: float = 0.6
     chunk_size: int = 800
     chunk_overlap: int = 100
     session_ttl_seconds: int = 3600

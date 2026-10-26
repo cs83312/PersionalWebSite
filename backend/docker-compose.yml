@@ -1,0 +1,75 @@
+# 聊天 bot 後端。ngrok 只轉發 api（127.0.0.1:8000）；admin（8001）只能在本機使用。
+x-app: &app
+  build: .
+  env_file: .env
+  extra_hosts:
+    - "host.docker.internal:host-gateway"
+  volumes:
+    - ./config:/app/config:ro
+  restart: unless-stopped
+  depends_on:
+    qdrant:
+      condition: service_healthy
+    redis:
+      condition: service_healthy
+    postgres:
+      condition: service_healthy
+
+services:
+  api:
+    <<: *app
+    command: ["uvicorn", "--factory", "main:create_public_app", "--host", "0.0.0.0", "--port", "8000"]
+    ports:
+      - "127.0.0.1:8000:8000"
+
+  admin:
+    <<: *app
+    command: ["uvicorn", "--factory", "main:create_admin_app", "--host", "0.0.0.0", "--port", "8001"]
+    ports:
+      - "127.0.0.1:8001:8001"
+    volumes:
+      - ./config:/app/config:ro
+      - uploads:/data/uploads
+
+  qdrant:
+    image: qdrant/qdrant:v1.20.0
+    volumes:
+      - qdrant:/qdrant/storage
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c ':> /dev/tcp/127.0.0.1/6333' || exit 1"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  redis:
+    image: redis:7.4-alpine
+    volumes:
+      - redis:/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: chatbot
+      POSTGRES_PASSWORD: chatbot
+      POSTGRES_DB: chatbot
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "chatbot"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+volumes:
+  uploads:
+  qdrant:
+  redis:
+  postgres:
