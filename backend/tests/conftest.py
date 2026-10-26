@@ -82,3 +82,50 @@ def history(redis):
     from service.history import SessionHistory
 
     return SessionHistory(redis, ttl_seconds=3600, max_turns=2)
+
+
+@pytest.fixture
+def log_repo():
+    from service.repos.memory import InMemoryChatLogRepo
+
+    return InMemoryChatLogRepo()
+
+
+CV_TEXT = "KLIF built an MQTT gateway"
+LLM_ANSWER = "He built an MQTT gateway."
+
+
+@pytest.fixture
+async def seeded_store(store, embeddings):
+    from service.chunking import Chunk
+
+    await store.upsert("doc-cv", "cv.md", [Chunk(CV_TEXT, 0, None)], [embeddings.embed_query(CV_TEXT)])
+    return store
+
+
+@pytest.fixture
+def make_chat(embeddings, seeded_store, history, log_repo, persona):
+    from langchain_core.language_models import FakeListChatModel
+
+    from service.chat import ChatService
+
+    def make(**kw):
+        args = dict(
+            embeddings=embeddings,
+            store=seeded_store,
+            history=history,
+            log_repo=log_repo,
+            llm=FakeListChatModel(responses=[LLM_ANSWER]),
+            persona=persona,
+        )
+        opts = dict(top_k=4, score_threshold=-1.0, max_concurrency=1, queue_timeout=0.05, model_name="fake")
+        for k, v in kw.items():
+            (args if k in args else opts)[k] = v
+        return ChatService(**args, **opts)
+
+    return make
+
+
+@pytest.fixture
+def chat(make_chat):
+    return make_chat()
