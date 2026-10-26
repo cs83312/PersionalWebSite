@@ -37,3 +37,32 @@ async def store():
     await s.ensure_collection()
     yield s
     await client.close()
+
+
+@pytest.fixture
+def embeddings():
+    from langchain_core.embeddings import DeterministicFakeEmbedding
+
+    return DeterministicFakeEmbedding(size=4)
+
+
+@pytest.fixture
+def repo():
+    from service.repos.memory import InMemoryDocumentRepo
+
+    return InMemoryDocumentRepo()
+
+
+@pytest.fixture
+def make_ingestion(tmp_path, embeddings, repo):
+    from service.ingestion import IngestionService
+
+    def make(store):
+        return IngestionService(tmp_path / "uploads", embeddings, store, repo, chunk_size=200, chunk_overlap=0)
+
+    return make
+
+
+@pytest.fixture
+def svc(make_ingestion, store):
+    return make_ingestion(store)
