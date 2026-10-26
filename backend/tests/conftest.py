@@ -66,3 +66,19 @@ def make_ingestion(tmp_path, embeddings, repo):
 @pytest.fixture
 def svc(make_ingestion, store):
     return make_ingestion(store)
+
+
+@pytest.fixture
+async def redis():
+    from fakeredis import FakeAsyncRedis
+
+    r = FakeAsyncRedis(decode_responses=True)
+    yield r
+    await r.aclose()
+
+
+@pytest.fixture
+def history(redis):
+    from service.history import SessionHistory
+
+    return SessionHistory(redis, ttl_seconds=3600, max_turns=2)
