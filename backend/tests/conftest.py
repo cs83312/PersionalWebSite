@@ -129,3 +129,38 @@ def make_chat(embeddings, seeded_store, history, log_repo, persona):
 @pytest.fixture
 def chat(make_chat):
     return make_chat()
+
+
+ADMIN_KEY = "test-admin-key-0123456789"
+
+
+async def _true() -> bool:
+    return True
+
+
+@pytest.fixture
+def services(tmp_path, embeddings, seeded_store, history, redis, log_repo, repo, persona, make_chat):
+    from controller.security import RateLimiter
+    from service.container import Services
+    from service.health import HealthChecker
+    from service.ingestion import IngestionService
+
+    s = Settings(
+        _env_file=None,
+        admin_api_key=ADMIN_KEY,
+        upload_dir=tmp_path / "uploads",
+        cors_origins="https://site.test",
+        rate_limit_per_minute=3,
+        score_threshold=-1.0,
+    )
+    return Services(
+        settings=s,
+        persona=persona,
+        ingestion=IngestionService(s.upload_dir, embeddings, seeded_store, repo, chunk_size=200, chunk_overlap=0),
+        chat=make_chat(),
+        history=history,
+        rate_limiter=RateLimiter(redis, s.rate_limit_per_minute),
+        log_repo=log_repo,
+        health=HealthChecker({"ollama": _true, "qdrant": _true, "redis": _true, "postgres": _true}),
+        closers=[],
+    )
