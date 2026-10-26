@@ -67,3 +67,12 @@ async def test_chat_logs_query(admin, services):
 
 async def test_chat_routes_not_mounted_on_admin_app(admin):
     assert (await admin.post("/chat", json={"message": "hi"})).status_code == 404
+
+
+async def test_upload_when_ollama_down_returns_503(services, admin, tmp_path, store, repo):
+    from service.ingestion import IngestionService
+    from tests.test_ingestion import DownDocEmbeddings
+
+    services.ingestion = IngestionService(tmp_path / "u2", DownDocEmbeddings(size=4), store, repo, chunk_size=200, chunk_overlap=0)
+    r = await admin.post("/admin/documents", headers=H, files={"file": ("a.md", b"text")})
+    assert r.status_code == 503 and r.json()["detail"] == "unavailable"

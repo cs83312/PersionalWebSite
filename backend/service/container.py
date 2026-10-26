@@ -32,6 +32,22 @@ class Services:
     closers: list[Callable[[], Awaitable[None]]] = field(default_factory=list)
 
 
+def build_ollama_clients(settings: Settings) -> tuple[OllamaEmbeddings, ChatOllama]:
+    # 沒有逾時的話，Ollama 卡住時會永遠占住唯一的 GPU 名額
+    timeout = httpx.Timeout(settings.llm_timeout_seconds, connect=5)
+    embeddings = OllamaEmbeddings(
+        model=settings.embed_model, base_url=settings.ollama_base_url, client_kwargs={"timeout": timeout}
+    )
+    llm = ChatOllama(
+        model=settings.chat_model,
+        base_url=settings.ollama_base_url,
+        num_predict=settings.llm_num_predict,
+        num_ctx=settings.llm_num_ctx,
+        client_kwargs={"timeout": timeout},
+    )
+    return embeddings, llm
+
+
 async def build_services(settings: Settings) -> Services:
     pool = await asyncpg.create_pool(settings.database_url)
     await init_schema(pool)
@@ -41,8 +57,7 @@ async def build_services(settings: Settings) -> Services:
     redis = Redis.from_url(settings.redis_url, decode_responses=True)
 
     persona = load_persona(settings.persona_path)
-    embeddings = OllamaEmbeddings(model=settings.embed_model, base_url=settings.ollama_base_url)
-    llm = ChatOllama(model=settings.chat_model, base_url=settings.ollama_base_url)
+    embeddings, llm = build_ollama_clients(settings)
     doc_repo = PgDocumentRepo(pool)
     log_repo = PgChatLogRepo(pool)
     history = SessionHistory(redis, settings.session_ttl_seconds, settings.history_max_turns)

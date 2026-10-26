@@ -42,6 +42,8 @@ docker compose ps           # 等 qdrant / redis / postgres 顯示 healthy
 ```powershell
 ngrok http 127.0.0.1:8000
 ```
+`ADMIN_API_KEY` 必須至少 16 個字元，留空時服務會拒絕啟動。
+
 記得把網站的網址加進 `.env` 的 `CORS_ORIGINS`（多個網址以逗號分隔），然後執行 `docker compose up -d` 套用設定。
 
 ## API
@@ -76,7 +78,7 @@ curl -H "X-API-Key: $KEY" -X DELETE http://127.0.0.1:8001/admin/documents/<id>  
 curl -H "X-API-Key: $KEY" "http://127.0.0.1:8001/admin/chat-logs?q=MQTT&fallback_only=false&limit=50"
 ```
 
-上傳的錯誤代碼：`415` 不支援的檔案類型（目前支援 `.md`、`.pdf`）、`422` 無法讀取，或擷取不到文字（例如掃描版 PDF）、`409` 內容和現有文件相同（回應中附上 `existing_id`）、`413` 檔案超過 `MAX_UPLOAD_MB`。
+上傳的錯誤代碼：`415` 不支援的檔案類型（目前支援 `.md`、`.pdf`）、`422` 無法讀取，或擷取不到文字（例如掃描版 PDF）、`409` 內容和現有文件相同（回應中附上 `existing_id`）、`413` 檔案超過 `MAX_UPLOAD_MB`、`503` Ollama 沒有回應（請確認 Ollama 已啟動）。
 
 `chat-logs` 的查詢參數：`from`、`to`（ISO 8601）、`session_id`、`q`（在問題和回答中搜尋關鍵字）、`fallback_only`、`limit`（1–200）、`offset`。
 

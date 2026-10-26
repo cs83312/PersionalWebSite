@@ -1,7 +1,7 @@
 from functools import lru_cache
 from pathlib import Path
 
-from pydantic import SecretStr
+from pydantic import SecretStr, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -14,6 +14,9 @@ class Settings(BaseSettings):
     chat_model: str = "qwen2.5:7b"
     embed_model: str = "mxbai-embed-large"
     embed_dim: int = 1024
+    llm_timeout_seconds: float = 120
+    llm_num_predict: int = 512
+    llm_num_ctx: int = 8192
 
     qdrant_url: str = "http://qdrant:6333"
     qdrant_collection: str = "documents"
@@ -36,6 +39,13 @@ class Settings(BaseSettings):
     rate_limit_per_minute: int = 10
     llm_max_concurrency: int = 1
     llm_queue_timeout_seconds: float = 30
+
+    @field_validator("admin_api_key")
+    @classmethod
+    def _admin_key_is_set(cls, v: SecretStr) -> SecretStr:
+        if len(v.get_secret_value().strip()) < 16:
+            raise ValueError("ADMIN_API_KEY must be set to a random string of at least 16 characters")
+        return v
 
     @property
     def cors_origin_list(self) -> list[str]:

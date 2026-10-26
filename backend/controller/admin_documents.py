@@ -4,6 +4,7 @@ from uuid import UUID
 from fastapi import APIRouter, HTTPException, Request, Response, UploadFile
 from fastapi.responses import FileResponse, JSONResponse
 
+from service.chat import UpstreamUnavailable
 from service.ingestion import DocumentNotFound, DuplicateDocument, EmptyDocument
 from service.loaders import UnreadableFile, UnsupportedFileType
 from service.models import DocumentRecord
@@ -36,6 +37,8 @@ async def _run(coro):
         raise HTTPException(status_code=415, detail="unsupported_file_type") from None
     except UnreadableFile:
         raise HTTPException(status_code=422, detail="unreadable_file") from None
+    except UpstreamUnavailable:
+        raise HTTPException(status_code=503, detail="unavailable") from None
     except EmptyDocument:
         raise HTTPException(status_code=422, detail="no_text_extracted") from None
     except DuplicateDocument as e:

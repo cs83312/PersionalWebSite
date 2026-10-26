@@ -11,6 +11,7 @@ from uuid import UUID, uuid4
 
 from langchain_core.embeddings import Embeddings
 
+from service.chat import UPSTREAM_ERRORS, UpstreamUnavailable
 from service.chunking import Chunk, split_pages
 from service.loaders import get_loader
 from service.models import DocumentRecord
@@ -141,7 +142,10 @@ class IngestionService:
         chunks = split_pages(pages, self._chunk_size, self._chunk_overlap)
         if not chunks:
             raise EmptyDocument(filename)
-        vectors = await self._embeddings.aembed_documents([c.text for c in chunks])
+        try:
+            vectors = await self._embeddings.aembed_documents([c.text for c in chunks])
+        except UPSTREAM_ERRORS as e:
+            raise UpstreamUnavailable() from e
         return chunks, vectors
 
     def _write_file(self, rec: DocumentRecord, data: bytes) -> None:

@@ -1,4 +1,6 @@
+import httpx
 import pytest
+from langchain_core.embeddings import DeterministicFakeEmbedding
 
 from service.ingestion import DocumentNotFound, DuplicateDocument, EmptyDocument, sanitize_filename
 from service.loaders import UnreadableFile
@@ -71,3 +73,18 @@ async def test_delete_removes_everything(svc, store, repo):
     assert await store.search([1, 0, 0, 0], 10) == []
     with pytest.raises(DocumentNotFound):
         await svc.delete(rec.id)
+
+
+class DownDocEmbeddings(DeterministicFakeEmbedding):
+    async def aembed_documents(self, texts):
+        raise httpx.ConnectError("ollama down")
+
+
+async def test_create_when_ollama_down_raises_upstream_unavailable(tmp_path, store, repo):
+    from service.chat import UpstreamUnavailable
+    from service.ingestion import IngestionService
+
+    svc = IngestionService(tmp_path / "uploads", DownDocEmbeddings(size=4), store, repo, chunk_size=200, chunk_overlap=0)
+    with pytest.raises(UpstreamUnavailable):
+        await svc.create("a.md", b"text")
+    assert await repo.list() == []
