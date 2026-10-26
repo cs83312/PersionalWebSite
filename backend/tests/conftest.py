@@ -24,3 +24,16 @@ def make_persona(**kw):
 @pytest.fixture
 def persona():
     return make_persona()
+
+
+@pytest.fixture
+async def store():
+    from qdrant_client import AsyncQdrantClient
+
+    from service.vector_store import VectorStore
+
+    client = AsyncQdrantClient(location=":memory:")
+    s = VectorStore(client, "test", dim=4)
+    await s.ensure_collection()
+    yield s
+    await client.close()
