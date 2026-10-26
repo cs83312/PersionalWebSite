@@ -111,3 +111,16 @@ async def test_cors_allows_configured_origin_only(client):
     bad = await client.options("/chat", headers={"Origin": "https://evil.test", "Access-Control-Request-Method": "POST"})
     assert ok.headers.get("access-control-allow-origin") == "https://site.test"
     assert "access-control-allow-origin" not in bad.headers
+
+
+async def test_cors_preflight_allows_ngrok_skip_warning_header(client):
+    r = await client.options(
+        "/chat/stream",
+        headers={
+            "Origin": "https://site.test",
+            "Access-Control-Request-Method": "POST",
+            "Access-Control-Request-Headers": "content-type,ngrok-skip-browser-warning",
+        },
+    )
+    assert r.status_code == 200
+    assert "ngrok-skip-browser-warning" in r.headers["access-control-allow-headers"].lower()

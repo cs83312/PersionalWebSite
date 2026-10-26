@@ -33,7 +33,8 @@ def create_public_app(services: Services | None = None) -> FastAPI:
         CORSMiddleware,
         allow_origins=settings.cors_origin_list,
         allow_methods=["GET", "POST"],
-        allow_headers=["Content-Type"],
+        # 前端會送 ngrok-skip-browser-warning，避免 ngrok 免費版的警告頁取代 API 回應
+        allow_headers=["Content-Type", "ngrok-skip-browser-warning"],
     )
     app.include_router(chat.router)
     app.include_router(health.router)
