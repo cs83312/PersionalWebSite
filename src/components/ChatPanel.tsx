@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, type KeyboardEvent, type RefObject } from 'react';
 import { useLanguage } from '@/context/LanguageContext';
 import type { ChatMessage } from '@/lib/chatState';
+import { isImeKey } from '@/lib/chatWidget';
 import styles from './ChatPanel.module.css';
 
 interface ChatPanelProps {
@@ -33,8 +34,7 @@ export function ChatPanel({ id, messages, pending, online, connecting, onSend, i
   }
 
   function handleKeyDown(e: KeyboardEvent<HTMLTextAreaElement>) {
-    // 中文輸入法選字時的 Enter 不能送出；Safari 選字時 isComposing 可能是 false，要再看 keyCode 229
-    if (e.key !== 'Enter' || e.shiftKey || e.nativeEvent.isComposing || e.keyCode === 229) return;
+    if (e.key !== 'Enter' || e.shiftKey || isImeKey(e.nativeEvent)) return;
     e.preventDefault();
     submit();
   }

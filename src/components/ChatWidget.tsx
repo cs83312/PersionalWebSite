@@ -5,11 +5,10 @@ import { useLanguage } from '@/context/LanguageContext';
 import { checkHealth, streamChat } from '@/lib/chatApi';
 import { CHAT_API_URL, CHAT_GREETING_DISMISSED_KEY, CHAT_SESSION_KEY } from '@/lib/chatConfig';
 import { chatReducer, initialChatState } from '@/lib/chatState';
+import { isImeKey, toggleAction, type Health } from '@/lib/chatWidget';
 import { safeGetItem, safeSetItem } from '@/lib/safeStorage';
 import { ChatPanel } from './ChatPanel';
 import styles from './ChatWidget.module.css';
-
-type Health = 'checking' | 'online' | 'offline';
 
 const PANEL_ID = 'chat-panel';
 const RETRY_MS = 60_000;
@@ -64,7 +63,7 @@ export function ChatWidget() {
   useEffect(() => {
     if (!open) return;
     function onKeyDown(e: KeyboardEvent) {
-      if (e.key !== 'Escape') return;
+      if (e.key !== 'Escape' || isImeKey(e)) return;
       setOpen(false);
       buttonRef.current?.focus();
     }
@@ -78,15 +77,16 @@ export function ChatWidget() {
   }, [open, health]);
 
   function toggle() {
-    if (health === 'offline') {
+    const action = toggleAction(open, health);
+    if (action === 'offline-bubble') {
       showBubble(OFFLINE_BUBBLE_MS);
       return;
     }
-    if (!open) {
+    if (action === 'open') {
       setBubble(false);
       if (!sending.current) runHealthCheck();
     }
-    setOpen(!open);
+    setOpen(action === 'open');
   }
 
   function dismissBubble() {

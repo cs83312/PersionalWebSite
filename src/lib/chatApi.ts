@@ -20,6 +20,8 @@ export interface ChatHandlers {
 const NGROK_HEADER = { 'ngrok-skip-browser-warning': 'true' };
 
 const HEALTH_TIMEOUT_MS = 5000;
+// 後端每 15 秒送一次 ping，超過這個時間完全沒有資料，就當成連線已經斷了
+const STREAM_IDLE_TIMEOUT_MS = 45_000;
 
 // fetchImpl 一律當成一般函式呼叫；把 window.fetch 掛在別的物件上呼叫會丟 Illegal invocation
 export async function checkHealth(baseUrl: string, fetchImpl: typeof fetch = fetch): Promise<boolean> {
@@ -53,6 +55,7 @@ export async function streamChat(
   req: { baseUrl: string; sessionId: string | null; message: string },
   handlers: ChatHandlers,
   fetchImpl: typeof fetch = fetch,
+  idleTimeoutMs: number = STREAM_IDLE_TIMEOUT_MS,
 ): Promise<ChatOutcome> {
   const unavailable: ChatOutcome = { ok: false, reason: 'unavailable' };
   if (!req.baseUrl) return unavailable;
@@ -73,8 +76,12 @@ export async function streamChat(
   const reader = response.body.getReader();
   const decoder = new TextDecoder();
   const push = createSseParser();
+  // 電腦睡眠或 ngrok 半關閉時連線不會結束，read() 會一直等；取消 reader 讓它以 done 結束
+  let idleTimer: ReturnType<typeof setTimeout> | undefined;
   try {
     while (true) {
+      clearTimeout(idleTimer);
+      idleTimer = setTimeout(() => reader.cancel().catch(() => {}), idleTimeoutMs);
       const { done, value } = await reader.read();
       // stream: true 讓被切在兩個 chunk 之間的中文字留到下一段再解碼
       const text = done ? decoder.decode() : decoder.decode(value, { stream: true });
@@ -92,6 +99,7 @@ export async function streamChat(
   } catch {
     return unavailable;
   } finally {
+    clearTimeout(idleTimer);
     reader.cancel().catch(() => {});
   }
 }

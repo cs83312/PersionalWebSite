@@ -146,6 +146,20 @@ test('stream that ends without done is unavailable', async () => {
   assert.deepEqual(outcome, { ok: false, reason: 'unavailable' });
 });
 
+test('a stream that goes silent is cut off as unavailable', async () => {
+  // 電腦睡眠或 ngrok 半關閉時，連線不會結束，只是不再有資料
+  const body = new ReadableStream<Uint8Array>({
+    start(controller) {
+      controller.enqueue(new TextEncoder().encode(ev('token', { text: '你' })));
+    },
+  });
+  const { fetchImpl } = fakeFetch(() => new Response(body, { status: 200 }));
+  const { log, handlers } = recorder();
+  const outcome = await streamChat({ baseUrl: BASE, sessionId: null, message: 'hi' }, handlers, fetchImpl, 50);
+  assert.deepEqual(log, [['token', '你']]);
+  assert.deepEqual(outcome, { ok: false, reason: 'unavailable' });
+});
+
 test('a stream that breaks while reading is unavailable', async () => {
   const body = new ReadableStream<Uint8Array>({
     start(controller) {
