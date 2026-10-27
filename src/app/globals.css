@@ -73,7 +73,7 @@ body {
   background-color: var(--bg);
   color: var(--text);
   /* 英數先用 JetBrains Mono；它沒有中文字形，中文會逐字落到 Noto Sans TC */
-  --font-base: var(--font-mono), var(--font-tc), monospace;
+  --font-base: 'JetBrains Mono', 'Noto Sans TC', monospace;
   font-family: var(--font-base);
 }
 
