@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { JetBrains_Mono, Noto_Sans_TC } from 'next/font/google';
 import { LanguageProvider } from '@/context/LanguageContext';
 import { NavBar } from '@/components/NavBar';
+import { ChatWidget } from '@/components/ChatWidget';
 import { themeInitScript } from '@/lib/theme';
 import './globals.css';
 
@@ -36,6 +37,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <LanguageProvider>
           <NavBar />
           <main>{children}</main>
+          <ChatWidget />
         </LanguageProvider>
       </body>
     </html>

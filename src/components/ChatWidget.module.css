@@ -1,0 +1,101 @@
+.button {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 1001;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  padding: 0;
+  background-color: var(--primary);
+  color: var(--bg);
+  border: none;
+  border-radius: 50%;
+  box-shadow: var(--shadow);
+  font: inherit;
+  font-size: 22px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.15s ease, background-color 0.2s ease;
+}
+
+.button:hover {
+  transform: scale(1.06);
+}
+
+.button:focus-visible {
+  outline: 2px solid var(--secondary-ink);
+  outline-offset: 3px;
+}
+
+.offline {
+  background-color: var(--text-subtle);
+  cursor: default;
+}
+
+.offline:hover {
+  transform: none;
+}
+
+.bubble {
+  position: fixed;
+  right: 92px;
+  bottom: 34px;
+  z-index: 1001;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  max-width: min(280px, calc(100vw - 116px));
+  padding: 8px 8px 8px 14px;
+  background-color: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+  font-size: 14px;
+  animation: pop 0.2s ease-out;
+}
+
+.dismiss {
+  flex: none;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  background: transparent;
+  color: var(--text-muted);
+  border: none;
+  border-radius: 50%;
+  font: inherit;
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.dismiss:hover {
+  color: var(--text);
+}
+
+.dismiss:focus-visible {
+  outline: 2px solid var(--secondary-ink);
+}
+
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .button,
+  .bubble {
+    transition: none;
+    animation: none;
+  }
+}
