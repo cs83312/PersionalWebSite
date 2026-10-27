@@ -14,7 +14,7 @@ FastAPI + LangChain + Ollama + Qdrant + Redis + Postgres，用 docker-compose �
 - Docker Desktop
 - 主機上的 Ollama，並下載好兩個模型：
   ```powershell
-  ollama pull qwen2.5:7b
+  ollama pull llama3.1
   ollama pull mxbai-embed-large
   ```
 

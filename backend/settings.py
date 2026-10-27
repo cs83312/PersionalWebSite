@@ -11,7 +11,7 @@ class Settings(BaseSettings):
     admin_api_key: SecretStr
 
     ollama_base_url: str = "http://host.docker.internal:11434"
-    chat_model: str = "qwen2.5:7b"
+    chat_model: str = "llama3.1"
     embed_model: str = "mxbai-embed-large"
     embed_dim: int = 1024
     llm_timeout_seconds: float = 120

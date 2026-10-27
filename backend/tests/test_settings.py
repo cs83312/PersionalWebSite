@@ -12,7 +12,7 @@ def test_missing_admin_key_refuses_to_start(monkeypatch):
 
 def test_defaults(settings):
     assert settings.ollama_base_url == "http://host.docker.internal:11434"
-    assert settings.chat_model == "qwen2.5:7b"
+    assert settings.chat_model == "llama3.1"
     assert settings.embed_model == "mxbai-embed-large"
     assert settings.embed_dim == 1024
     assert settings.session_ttl_seconds == 3600
