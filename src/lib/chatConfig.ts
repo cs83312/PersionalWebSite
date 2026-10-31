@@ -1,7 +1,7 @@
 // 正式站（GitHub Pages）呼叫的聊天後端網址，也就是 ngrok 對外網址。
 // ngrok 免費版每次重開網址都會變（除非用 ngrok 給的固定網域），網址變了要改這裡並重新部署。
 // 留空時網站上的聊天按鈕會一直顯示休息中。
-export const CHAT_PROD_API_URL = 'https://4779-182-233-251-112.ngrok-free.app';
+export const CHAT_PROD_API_URL = 'https://aa67-182-233-251-112.ngrok-free.app';
 
 const DEV_API_URL = 'http://localhost:8000';
 
